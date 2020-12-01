@@ -10,3 +10,4 @@ with ( Path.cwd( ) / '1_input.txt' ).open( ) as f:
         if sum( x ) == 2020:
             print( prod( x ) )
             break
+        

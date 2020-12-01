@@ -17,4 +17,4 @@ with open("day_01.input", "r") as f:
 answers = [
     next(prod(p) for p in combinations(vals, i) if sum(p) == 2020) for i in (2, 3)
 ]
-print(f"Part 1: {answers[0]} \nPart 2: {answers[0]}")
+print(f"Part 1: {answers[0]} \nPart 2: {answers[1]}")

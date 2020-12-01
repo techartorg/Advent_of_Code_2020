@@ -47,9 +47,13 @@ USER = AdventUser()
 # puzzle logic
 def find_report_entries(inputs, length: int = 2):
     for i in range(len(inputs)):
-        for j in combinations(inputs, i):
-            if len(j) == length and sum(j) == 2020:
-                return reduce((lambda x, y: x * y), j)
+        for j in combinations(inputs, length):
+            if sum(j) == 2020:
+                return reduce((lambda x, y: x * y), j)  # math.prod() is python >= 3.8, currently on 3.7
+
+
+def find_report_entries_short(inputs, length: int = 2):
+    return next(reduce((lambda x, y: x * y), j) for j in combinations(inputs, length) if sum(j) == 2020)
 
 
 # collect puzzle data
@@ -57,5 +61,5 @@ puzzle = USER.get_puzzle(1, 2020)
 puzzle_input = [int(x) for x in puzzle.input.splitlines()]
 
 # answer submissions
-puzzle.submit(find_report_entries(puzzle_input), PuzzlePart.A)
-puzzle.submit(find_report_entries(puzzle_input, 3), PuzzlePart.B)
+puzzle.submit(find_report_entries_short(puzzle_input), PuzzlePart.A)
+puzzle.submit(find_report_entries_short(puzzle_input, 3), PuzzlePart.B)

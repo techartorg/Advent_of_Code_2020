@@ -41,8 +41,8 @@ produces the answer, 241861950.
 
 In your expense report, what is the product of the three entries that sum to 2020?
 """
-import math
-import itertools
+from math import prod
+from itertools import combinations
 
 puzzle_inputs = [1834, 1546, 1119, 1870, 1193, 1198, 1542, 1944, 1817, 1249, 1361, 1856, 1258, 1425, 1835, 1520, 1792,
                  1130, 2004, 1366, 1549, 1347, 1507, 1699, 1491, 1557, 1865, 1948, 1199, 1229, 1598, 1756, 1643, 1306,
@@ -60,28 +60,17 @@ puzzle_inputs = [1834, 1546, 1119, 1870, 1193, 1198, 1542, 1944, 1817, 1249, 136
 
 def summation_equals(itr, tot, combo):
     """
-    Given an iterable of floats and a desired sum total, return a list of every group of numbers that equals the desired
-    sum
+    Given an iterable of floats and a desired sum total, return a tuple that matches the parameters
     :param itr: a list of floats
     :type itr: list
     :param tot: the desired total sum we are looking for
     :type tot: sum
     :param combo: The combination length for our iterator
     :type combo: int
-    :return: A list of tuples with the pairs of numbers that match the parameters
-    :rtype: list[tuple]
+    :return: The tuple that matches the parameters
+    :rtype: tuple
     """
-    return_list = []
-    combo_iter = itertools.combinations(itr, combo)
-    while True:
-        try:
-            item = next(combo_iter)
-            if sum(item) == tot:
-                return_list.append(item)
-        except StopIteration:
-            break
-
-    return return_list if len(return_list) > 0 else None
+    return next(j for j in combinations(itr, combo) if sum(j) == tot)
 
 
 def get_part_01_answer():
@@ -90,10 +79,7 @@ def get_part_01_answer():
     :return: The product result
     :rtype: float
     """
-    summation_tuple = summation_equals(puzzle_inputs, 2020, 2)
-    if summation_tuple:
-        return math.prod(summation_tuple[0])
-    return None
+    return prod(summation_equals(puzzle_inputs, 2020, 2))
 
 
 def get_part_02_answer():
@@ -102,9 +88,6 @@ def get_part_02_answer():
     :return: The product result
     :rtype: float
     """
-    summation_tuple = summation_equals(puzzle_inputs, 2020, 3)
-    if summation_tuple:
-        return math.prod(summation_tuple[0])
-    return None
+    return prod(summation_equals(puzzle_inputs, 2020, 3))
 
 

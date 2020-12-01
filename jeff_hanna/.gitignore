@@ -1,0 +1,6 @@
+.mypy_cache/
+.vs/
+.vscode/
+__pycache__/
+aoc_template.py
+*_input.txt

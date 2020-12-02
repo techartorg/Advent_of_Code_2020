@@ -14,5 +14,7 @@ vals: List[int] = [
 with open("day_01.input", "r") as f:
     vals = [int(v) for v in f]
 
-print(next(prod(p) for p in combinations(vals, 2) if sum(p) == 2020))
-print(next(prod(p) for p in combinations(vals, 3) if sum(p) == 2020))
+answers = [
+    next(prod(p) for p in combinations(vals, i) if sum(p) == 2020) for i in (2, 3)
+]
+print(f"Part 1: {answers[0]} \nPart 2: {answers[1]}")

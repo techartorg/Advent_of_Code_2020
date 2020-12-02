@@ -32,7 +32,8 @@ awful = list(
                     (password[int(min_) - 1], password[int(max_) - 1]).count(val) == 1,
                 )
                 for line in open("day_02.input", "r").read().split("\n")
-                if (match := re.match(r"(\d+)-(\d+) (\w): (\w+)", line))
+                if (reg := __import__("re"))
+                if (match := reg.match(r"(\d+)-(\d+) (\w): (\w+)", line))
                 for min_, max_, val, password in (match.groups(),)
             ]
         ),

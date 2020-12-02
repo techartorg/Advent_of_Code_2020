@@ -31,7 +31,7 @@ awful = list(
                     int(min_) <= password.count(val) <= int(max_),
                     (password[int(min_) - 1], password[int(max_) - 1]).count(val) == 1,
                 )
-                for line in pzl_input
+                for line in open("day_02.input", "r").read().split("\n")
                 if (match := tst.match(line))
                 for min_, max_, val, password in (match.groups(),)
             ]

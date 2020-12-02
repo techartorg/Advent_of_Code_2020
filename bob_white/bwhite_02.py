@@ -1,3 +1,5 @@
+import re
+
 pzl_input = """1-3 a: abcde
 1-3 b: cdefg
 2-9 c: ccccccccc""".split(
@@ -5,19 +7,35 @@ pzl_input = """1-3 a: abcde
 )
 
 pzl_input = open("day_02.input", "r").read().split("\n")
-
+tst = re.compile(r"(\d+)-(\d+) (\w): (\w+)")
 v1 = 0
 v2 = 0
 for line in pzl_input:
-    rules, password = line.split(": ")
-    min_max, val = rules.split()
-    min_, max_ = map(int, min_max.split("-"))
-    if min_ <= password.count(val) <= max_:
+    min_, max_, val, password = (
+        m.groups() if (m := tst.match(line)) else ("-1", "-1", " ", "")
+    )
+    if int(min_) <= password.count(val) <= int(max_):
         v1 += 1
-    if password[min_ - 1] == val and password[max_ - 1] == val:
-        continue
-    if password[min_ - 1] == val or password[max_ - 1] == val:
+    if (password[int(min_) - 1], password[int(max_) - 1]).count(val) == 1:
         v2 += 1
 
 print(v1)
 print(v2)
+
+awful = list(
+    map(
+        sum,
+        zip(
+            *[
+                (
+                    int(min_) <= password.count(val) <= int(max_),
+                    (password[int(min_) - 1], password[int(max_) - 1]).count(val) == 1,
+                )
+                for line in pzl_input
+                if (match := tst.match(line))
+                for min_, max_, val, password in (match.groups(),)
+            ]
+        ),
+    )
+)
+print(awful)

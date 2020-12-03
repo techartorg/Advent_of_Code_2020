@@ -1024,9 +1024,9 @@ def part2():
         password = password.strip()
         range_, requirement = policy.split(' ')
         min_, max_ = range_.split('-')
-        match1 = True if password[int(min_)-1] == requirement else False
-        match2 = True if password[int(max_)-1] == requirement else False
-        if (match1 and not match2) or (not match1 and match2):
+        match1 = password[int(min_)-1] == requirement
+        match2 = password[int(max_)-1] == requirement
+        if match1 != match2:
             passed +=1
 
     return passed

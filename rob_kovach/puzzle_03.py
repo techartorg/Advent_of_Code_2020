@@ -329,7 +329,6 @@ def part1():
     width = len(map_[0])
     posX = 0
     offsetX = 3
-    #offsetY = 1
     for row in map_:
         if row[posX % width] == '#':
             trees += 1
@@ -349,13 +348,11 @@ def find_trees(offsetX, offsetY, map_):
 
 def part2():
     map_ = input_.splitlines()
-    trees1 = find_trees(1, 1, map_)
-    trees2 = part1()
-    trees3 = find_trees(5, 1, map_)
-    trees4 = find_trees(7, 1, map_)
-    trees5 = find_trees(1, 2, map_)
-    print(trees1, trees2, trees3, trees4, trees5)
-    return trees1 * trees2 * trees3 * trees4 * trees5
+    offsets = [(1,1), (3,1), (5, 1), (7,1), (1,2)]
+    trees = 1
+    for x, y in offsets:
+        trees *= find_trees(x, y, map_)
+    return trees
 
 
 if __name__ == '__main__':

@@ -16,27 +16,23 @@ def validate_range(v: int, low: int, high: int):
 
 class Passport(object):
     def __init__(self, d: Dict[str, str]):
-        self.base = d
-        self.byr: int = int(i) if (i := d.get("byr")) else None
-        self.iyr: int = int(i) if (i := d.get("iyr")) else None
-        self.eyr: int = int(i) if (i := d.get("eyr")) else None
-        self.hgt: str = d.get("hgt")
-        self.hcl: str = d.get("hcl")
-        self.ecl: str = d.get("ecl")
-        self.pid: str = d.get("pid")
-        self.cid: str = d.get("cid")
+        self.byr = int(d.get("byr", 0))
+        self.iyr = int(d.get("iyr", 0))
+        self.eyr = int(d.get("eyr", 0))
+        self.hgt = d.get("hgt", "")
+        self.hcl = d.get("hcl", "")
+        self.ecl = d.get("ecl", "")
+        self.pid = d.get("pid", "")
+        self.cid = d.get("cid", "")
 
     def validate(self) -> bool:
-        if self.byr is None or not 1920 <= self.byr <= 2002:
+        if not 1920 <= self.byr <= 2002:
             return False
 
-        if self.iyr is None or not 2010 <= self.iyr <= 2020:
+        if not 2010 <= self.iyr <= 2020:
             return False
 
-        if self.eyr is None or not 2020 <= self.eyr <= 2030:
-            return False
-
-        if self.hgt is None:
+        if not 2020 <= self.eyr <= 2030:
             return False
 
         if m := height_re.match(self.hgt):
@@ -49,13 +45,13 @@ class Passport(object):
         else:
             return False
 
-        if self.hcl is None or hair_color_re.match(self.hcl) is None:
+        if hair_color_re.match(self.hcl) is None:
             return False
 
-        if self.ecl is None or self.ecl not in eye_colors:
+        if self.ecl not in eye_colors:
             return False
 
-        if self.pid is None or pid_re.match(self.pid) is None:
+        if pid_re.match(self.pid) is None:
             return False
 
         return True

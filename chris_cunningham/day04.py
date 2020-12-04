@@ -10,10 +10,6 @@ eye_colors = {"amb", "blu",  "brn", "gry", "grn", "hzl", "oth"}
 pid_re = re.compile(r"^\d{9}$")
 
 
-def validate_range(v: int, low: int, high: int):
-    return low <= v <= high
-
-
 class Passport(object):
     def __init__(self, d: Dict[str, str]):
         self.byr = int(d.get("byr", 0))

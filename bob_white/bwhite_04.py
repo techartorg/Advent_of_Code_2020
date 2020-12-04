@@ -46,6 +46,20 @@ for passport in passports:
         and ((ecl := passport.get("ecl", "")) and ecl in {"amb", "blu", "brn", "gry", "grn", "hzl", "oth"})
         and ((pid := passport.get("pid", "")) and len(pid) == 9 and all(c.isdigit() for c in pid))
     )
-
-
 print(valid)
+# Part 02 as a comprehension? Not all that different even with black formatting it.
+print(
+    sum(
+        bool(
+            True
+            and 1920 <= int(passport.get("byr", "0")) <= 2002
+            and 2010 <= int(passport.get("iyr", "0")) <= 2020
+            and 2020 <= int(passport.get("eyr", "0")) <= 2030
+            and ((hgt := passport.get("hgt", "")) and (hgt.endswith("cm") and 150 <= int(hgt[:-2]) <= 193) or (hgt.endswith("in") and 59 <= int(hgt[:-2]) <= 76))
+            and ((hcl := passport.get("hcl", "")) and hcl.startswith("#") and len(hcl[1:]) == 6 and all(c in "abcdef1234567890" for c in hcl[1:]))
+            and ((ecl := passport.get("ecl", "")) and ecl in {"amb", "blu", "brn", "gry", "grn", "hzl", "oth"})
+            and ((pid := passport.get("pid", "")) and len(pid) == 9 and all(c.isdigit() for c in pid))
+        )
+        for passport in passports
+    )
+)

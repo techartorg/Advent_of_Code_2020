@@ -2,17 +2,19 @@
 
 from collections import deque, namedtuple
 from contextlib import suppress
+from copy import deepcopy
 from math import prod
 from pathlib import Path
 
 def sledding( hill_data, slope ):
     tree_count = 0
 
-    for i in range( len( hill_data ) ): # traverse down the hill
+    i = 0
+    while i < len( hill_data ):
         [ x.rotate( slope.x ) for x in hill_data ]
 
         with suppress( IndexError ):
-            if hill_data[ i + slope.y ][ 0 ] == '#':
+            if hill_data[ ( i := i + slope.y ) ][ 0 ] == '#': 
                 tree_count += 1
 
     return tree_count
@@ -29,14 +31,11 @@ if __name__ == '__main__':
                Slope( x = -1, y = 2 ), )
 
     # Part 1
-    print( sledding( hill_data, slopes[ 1 ] ) )
-    [ x.rotate( len( hill_data ) * slopes[ 1 ].x * -1 ) for x in hill_data ]
+    print( sledding( deepcopy( hill_data ), slopes[ 1 ] ) )
 
     # Part 2
     trees = [ ]
     for s in slopes:
-        trees.append( sledding( hill_data, s ) )
-        if s != slopes[ -1 ]: # no need to reset after the last run.
-            [ x.rotate( len( hill_data ) * s.x * -1 ) for x in hill_data ]
+        trees.append( sledding( deepcopy( hill_data ), s ) )
 
     print( prod( trees ) )

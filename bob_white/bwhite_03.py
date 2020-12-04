@@ -48,3 +48,8 @@ def nth(itr, idx):
 # This one uses cycle to loop instead of % mathing it
 print(prod(sum(nth(cycle(line), dx * c) == "#" for c, line in enumerate(trees[::dy])) for dx, dy in ((3, 1),)))
 print(prod(sum(nth(cycle(line), dx * c) == "#" for c, line in enumerate(trees[::dy])) for dx, dy in ((1, 1), (3, 1), (5, 1), (7, 1), (1, 2))))
+
+# Yet another version that avoids %, this time just manually expanding the line by a stupidly large amount
+super_long_trees = [tree_line * 1000 for tree_line in trees]
+print(prod(sum(line[dx * c] == "#" for c, line in enumerate(super_long_trees[::dy])) for dx, dy in ((3, 1),)))
+print(prod(sum(line[dx * c] == "#" for c, line in enumerate(super_long_trees[::dy])) for dx, dy in ((1, 1), (3, 1), (5, 1), (7, 1), (1, 2))))

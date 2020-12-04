@@ -30,7 +30,7 @@ puzzle_input = open("day_04.input").read().split("\n\n")
 # We can skip "cid" throughout, so we'll just not worry about it in our passport dictionaries.
 passports = [{k: v for pair in group.split() for k, v in (pair.split(":"),) if k != "cid"} for group in puzzle_input]
 # PART 01
-print(sum((set(passport) ^ fields == {"cid"}) for passport in passports))
+print(sum(fields.symmetric_difference(passport) == {"cid"} for passport in passports))
 
 
 # PART 02

@@ -135,12 +135,12 @@ def value_in_range(val, _min, _max):
     return False
 
 
-def hair_color_match(hcl_val, search=re.compile(r'[^a-f0-9#]').search):
-    return not bool(search(hcl_val))
+def hair_color_match(hcl_val, search=re.compile(r'^[#]{1}[a-f0-9]{6}$').search):
+    return bool(search(hcl_val))
 
 
-def passport_id_match(pid_val, search=re.compile(r'[^0-9]').search):
-    return not bool(search(pid_val))
+def passport_id_match(pid_val, search=re.compile(r'^[0-9]{9}$').search):
+    return bool(search(pid_val))
 
 
 def get_passport_dicts():
@@ -175,9 +175,9 @@ def get_part_02_answer():
                    (value_in_range(passport_dict['eyr'], 2020, 2030) and len(passport_dict['eyr']) == 4) and \
                    ((passport_dict['hgt'][-2:] == 'cm' and value_in_range(passport_dict['hgt'][:-2], 150, 193)) or
                     (passport_dict['hgt'][-2:] == 'in' and value_in_range(passport_dict['hgt'][:-2], 59, 76))) and \
-                   (passport_dict['hcl'][0] == '#' and len(passport_dict['hcl']) == 7 and hair_color_match(passport_dict['hcl'])) and \
+                   (hair_color_match(passport_dict['hcl'])) and \
                    (passport_dict['ecl'] in valid_eye_colors) and \
-                   (len(passport_dict['pid']) == 9 and passport_id_match(passport_dict['pid'])):
+                   (passport_id_match(passport_dict['pid'])):
                 itr += 1
 
     return itr

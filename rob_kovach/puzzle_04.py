@@ -5,23 +5,8 @@ Advent of Code Day 4
 location = __file__
 passports = open(location.replace('.py', '_input.txt')).read().split('\n\n')
 
+# ---- Part One ---------------------------------------------------------------
 required_fields = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
-fields = required_fields + ['cid']
-
-valid_birth_years = (1920, 2002)
-valid_issue_years = (2010, 2020)
-valid_expiration_years = (2020, 2030)
-
-def part1():
-    valid_passports = 0
-    for passport in passports:
-        invalid = False
-        for field in required_fields:
-            if (field+":") not in passport:
-                invalid = True
-        if not invalid:
-            valid_passports += 1
-    return valid_passports
 
 def validate_fields(passport):
     valid = True
@@ -30,6 +15,18 @@ def validate_fields(passport):
             valid = False
             break
     return valid
+
+def part1():
+    valid_passports = 0
+    for passport in passports:
+        if validate_fields(passport):
+            valid_passports += 1
+    return valid_passports
+
+# ---- Part Two ---------------------------------------------------------------
+valid_birth_years = (1920, 2002)
+valid_issue_years = (2010, 2020)
+valid_expiration_years = (2020, 2030)
 
 def validate_range(value, range_):
     return range_[0] <= int(value) <= range_[1]

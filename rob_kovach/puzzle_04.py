@@ -4,7 +4,6 @@ Advent of Code Day 4
 
 location = __file__
 passports = open(location.replace('.py', '_input.txt')).read().split('\n\n')
-passport_count = len(passports)
 
 required_fields = ['byr', 'iyr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid']
 fields = required_fields + ['cid']
@@ -12,10 +11,6 @@ fields = required_fields + ['cid']
 valid_birth_years = (1920, 2002)
 valid_issue_years = (2010, 2020)
 valid_expiration_years = (2020, 2030)
-valid_height_cm = (150, 193)
-valid_heigh_in = (59,76)
-valid_eye_color = ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth']
-passport_id_length = 9
 
 def part1():
     valid_passports = 0
@@ -37,17 +32,19 @@ def validate_fields(passport):
     return valid
 
 def validate_range(value, range_):
-    return int(value) >= range_[0] and int(value) <= range_[1]
+    return range_[0] <= int(value) <= range_[1]
 
 def validate_height(value):
+    valid_height_cm = (150, 193)
+    valid_height_in = (59,76)
     if not value.endswith('in') and not value.endswith('cm'):
         return False
     if value.endswith('in'):
-        return validate_range(int(value.replace('in', '')), valid_heigh_in)
+        return validate_range(value.replace('in', ''), valid_height_in)
     if value.endswith('cm'):
-        return validate_range(int(value.replace('cm', '')), valid_height_cm) 
+        return validate_range(value.replace('cm', ''), valid_height_cm) 
 
-def validate_color(value):
+def validate_hair_color(value):
     if not len(value) == 7:
         return False
     if value[0] != '#':
@@ -57,10 +54,12 @@ def validate_color(value):
     return True
 
 def validate_eye_color(value):
-    return value in valid_eye_color
+    valid_eye_colors = ['amb', 'blu', 'brn', 'gry', 'grn', 'hzl', 'oth']
+    return value in valid_eye_colors
 
 def validate_passport_id(value):
-    if len(value) == 9 and value.isdigit():
+    passport_id_length = 9
+    if len(value) == passport_id_length and value.isdigit():
         return True
     return False
 
@@ -87,7 +86,7 @@ def part2():
                 if not validate_height(value):
                     valid = False
             elif key == 'hcl':
-                if not validate_color(value):
+                if not validate_hair_color(value):
                     valid = False
             elif key == 'ecl':
                 if not validate_eye_color(value):

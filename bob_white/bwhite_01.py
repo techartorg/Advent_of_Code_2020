@@ -11,10 +11,12 @@ vals: List[int] = [
     1456,
 ]
 
-with open("day_01.input", "r") as f:
-    vals = [int(v) for v in f]
-
 answers = [
-    next(prod(p) for p in combinations(vals, i) if sum(p) == 2020) for i in (2, 3)
+    next(
+        prod(p)
+        for p in combinations(map(int, open("day_01.input").readlines()), i)
+        if sum(p) == 2020
+    )
+    for i in (2, 3)
 ]
 print(f"Part 1: {answers[0]} \nPart 2: {answers[1]}")

@@ -62,13 +62,13 @@ def get_part_01_answer():
             try:
                 seat_limit = next(boarding_pass)
                 if seat_limit == 'F':
-                    row = row[:-int(len(row)/2)]
+                    row = row[:-len(row)//2]
                 elif seat_limit == 'B':
-                    row = row[-int(len(row)/2):]
+                    row = row[-len(row)//2:]
                 elif seat_limit == 'L':
-                    col = col[:-int(len(col)/2)]
+                    col = col[:-len(col)//2]
                 elif seat_limit == 'R':
-                    col = col[-int(len(col)/2):]
+                    col = col[-len(col)//2:]
             except StopIteration:
                 seat_ids.append((row[0] * 8) + col[0])
                 break

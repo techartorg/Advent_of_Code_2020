@@ -19,8 +19,8 @@ for boarding_pass in pzl:
 # So the insight here is that because we're actually multiplying the row by 8 before adding,
 # we're actually just creating a 10-bit number
 
-passes = [int("".join("0" if c in "FL" else "1" for c in boarding_pass), 2) for boarding_pass in pzl]
-print(f"Part_01 {max(passes)}")
+passes = sorted(int("".join("0" if c in "FL" else "1" for c in boarding_pass), 2) for boarding_pass in pzl)
+print(f"Part_01 {passes[-1]}")
 
-missing = set(range(min(passes), max(passes))).difference(passes)
+missing = set(range(passes[0], passes[-1])).difference(passes)
 print(f"Part_02 {missing.pop()}")

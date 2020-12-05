@@ -25,8 +25,7 @@ with open("inputs/day05.txt", 'r') as f:
     directions = [parse_bsp(i.strip()) for i in f]
     ids = sorted([r * 8 + c for r, c in directions])
 
-    max_sid = max(ids)
-    print(f"part a: {max_sid}")
+    print(f"part a: {ids[-1]}")
 
     missing = set(range(ids[0], ids[-1])).difference(ids).pop()
     print(f"part b: {missing}")

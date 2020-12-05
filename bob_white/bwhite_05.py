@@ -8,10 +8,10 @@ for boarding_pass in pzl:
             rows = rows[: len(rows) // 2]
         elif val == "B":
             rows = rows[len(rows) // 2 :]
-        elif val == "R":
-            columns = columns[len(columns) // 2 :]
         elif val == "L":
             columns = columns[: len(columns) // 2]
+        elif val == "R":
+            columns = columns[len(columns) // 2 :]
     passes.append(rows[0] * 8 + columns[0])
 
 print(f"Part_01 {max(passes)}")

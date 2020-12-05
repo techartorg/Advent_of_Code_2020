@@ -127,5 +127,8 @@ ozzmeister00/AdventOfCode2020/Binaries/Win64/AdventOfCode2020Editor.target
 ozzmeister00/AdventOfCode2020/Binaries/Win64/UE4Editor-AdventOfCode2020.dll
 ozzmeister00/AdventOfCode2020/Binaries/Win64/UE4Editor-AdventOfCode2020.pdb
 ozzmeister00/AdventOfCode2020/Binaries/Win64/UE4Editor.modules
+ozzmeister00/AdventOfCode2020/.vs/AdventOfCode2020/v16/ipch/AutoPCH/db277142ba3de22d/SCRIPTCORE.ipch
 tEvashk/*.txt
 *.input
+oscar_domingo/*.txt
+*.txt

@@ -1,4 +1,4 @@
-from typing import Tuple, List, Set
+from typing import Tuple
 
 row_count = 128
 col_count = 8

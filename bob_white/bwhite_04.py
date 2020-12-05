@@ -37,7 +37,7 @@ print(sum(fields.symmetric_difference(passport) == {"cid"} for passport in passp
 valid = 0
 for passport in passports:
     valid += bool(
-        True
+        True  # This is here so the black formats everything else together otherwise kind of dumb.
         and 1920 <= int(passport.get("byr", "0")) <= 2002
         and 2010 <= int(passport.get("iyr", "0")) <= 2020
         and 2020 <= int(passport.get("eyr", "0")) <= 2030

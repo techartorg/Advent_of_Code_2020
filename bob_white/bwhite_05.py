@@ -12,8 +12,14 @@ for boarding_pass in pzl:
             columns = columns[: len(columns) // 2]
         elif val == "R":
             columns = columns[len(columns) // 2 :]
-    passes.append(rows[0] * 8 + columns[0])
+    v = rows[0] * 8 + columns[0]
+    passes.append(v)
 
+# New hotness!
+# So the insight here is that because we're actually multiplying the row by 8 before adding,
+# we're actually just creating a 10-bit number
+
+passes = [int("".join("0" if c in "FL" else "1" for c in boarding_pass), 2) for boarding_pass in pzl]
 print(f"Part_01 {max(passes)}")
 
 missing = set(range(min(passes), max(passes))).difference(passes)

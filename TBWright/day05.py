@@ -55,11 +55,9 @@ def get_passport_iters():
 
 def get_part_01_answer():
     seat_ids = []
-    lowest_id = 1023
-    highest_id = 0
     for boarding_pass in get_passport_iters():
-        row = list(range(0, 128))
-        col = list(range(0, 8))
+        row = range(0, 128)
+        col = range(0, 8)
         while True:
             try:
                 seat_limit = next(boarding_pass)
@@ -72,25 +70,21 @@ def get_part_01_answer():
                 elif seat_limit == 'R':
                     col = col[-int(len(col)/2):]
             except StopIteration:
-                seat_id = (row[0] * 8) + col[0]
-                seat_ids.append(seat_id)
-                lowest_id = seat_id if seat_id < lowest_id else lowest_id
-                highest_id = seat_id if seat_id > highest_id else highest_id
+                seat_ids.append((row[0] * 8) + col[0])
                 break
-    return lowest_id, highest_id, sorted(seat_ids)
+    return sorted(seat_ids)
 
 
 def get_part_02_answer(lowest_id, sorted_seat_ids):
-    my_id = None
     for ind, seat_id in enumerate(sorted_seat_ids):
         if seat_id - lowest_id != ind:
-            my_id = seat_id - 1
-            break
-    return my_id
+            return seat_id - 1
+    return None
 
 
-lowest, highest, ids = get_part_01_answer()
-my_id = get_part_02_answer(lowest, ids)
+ids = get_part_01_answer()
+# my_id = get_part_02_answer(min(ids), ids)
+my_id = set(range(min(ids), max(ids))).difference(set(ids))  # stole this from Bob. Damn one-liners.
 
-print(highest)
-print(my_id)
+print(max(ids))
+print(my_id.pop())

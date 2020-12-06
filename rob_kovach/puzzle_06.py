@@ -1,10 +1,11 @@
 """
-Advent of Code Day 6
+Advent of Code - Day 6
 """
 
 location = __file__
 groups = open(location.replace('.py', '_input.txt')).read().split('\n\n')
 
+''' Original Solution
 def get_answers(group):
     answers = 0
     for i in 'abcdefghijklmnopqrstuvwxyz':
@@ -24,6 +25,16 @@ def get_actual_answers(group):
         if count == members:
             answers += 1
     return answers
+'''
+
+# Adapted original solution to use set operations.
+def get_answers(group):
+    group = group.replace('\n', '')
+    return len(set(group))
+
+def get_actual_answers(group):
+    unique_answers = [set(x) for x in group.splitlines()]
+    return len(set.intersection(*unique_answers))
 
 def part1():
     return sum(get_answers(x) for x in groups)

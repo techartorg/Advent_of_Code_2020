@@ -1,19 +1,6 @@
-test_input = '''abc
-
-a
-b
-c
-
-ab
-ac
-
-a
-a
-a
-a
-
-b
-'''
+"""
+Advent of Code Day 6
+"""
 
 location = __file__
 groups = open(location.replace('.py', '_input.txt')).read().split('\n\n')
@@ -37,7 +24,6 @@ def get_actual_answers(group):
         if count == members:
             answers += 1
     return answers
-
 
 def part1():
     return sum(get_answers(x) for x in groups)

@@ -84,7 +84,7 @@ def get_part_02_answer(lowest_id, sorted_seat_ids):
 
 ids = get_part_01_answer()
 # my_id = get_part_02_answer(min(ids), ids)
-my_id = set(range(min(ids), max(ids))).difference(set(ids))  # stole this from Bob. Damn one-liners.
+my_id = set(range(ids[0], ids[-1])).difference(set(ids))  # stole this from Bob. Damn one-liners.
 
 print(max(ids))
 print(my_id.pop())

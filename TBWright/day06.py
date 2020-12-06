@@ -77,18 +77,11 @@ passport_list = [line.replace('\n', ' ') for line in open("inputs/day6_input.txt
 
 
 def part01():
-    total_yes = 0
-    for answers in passport_list:
-        answers = sorted(answers.replace(' ', ''))
-        total_yes += len(set(answers))
-    print(total_yes)
+    print(sum((len(set(sorted(answers.replace(' ', '')))) for answers in passport_list)))
 
 
 def part02():
-    total_yes = 0
-    for answer in passport_list:
-        total_yes += len(set.intersection(*[set(passenger) for passenger in answer.split(' ')]))
-    print(total_yes)
+    print(sum((len(set.intersection(*[set(passenger) for passenger in answer.split(' ')])) for answer in passport_list)))
 
 
 part01()

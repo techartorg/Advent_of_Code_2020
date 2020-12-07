@@ -23,7 +23,7 @@ def decode_seat_bsp( seat ):
 
 
 if __name__ == '__main__':
-    decoded_seats = decoded_seats = ( decode_seat_bsp( x.strip( ) ) for x in ( Path.cwd( ) / '5_input.txt' ).open( ) )
+    decoded_seats = ( decode_seat_bsp( x.strip( ) ) for x in ( Path.cwd( ) / '5_input.txt' ).open( ) )
     seat_ids = sorted( ( row * 8 + seat for row, seat in decoded_seats ) )
 
     # Part 1

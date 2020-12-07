@@ -28,7 +28,7 @@ def total_all_group_answer( forms ):
             group_answers += form
         else:
             counts = Counter( group_answers )
-            total_yes += sum(x == num_group_members for x in counts.values( ))
+            total_yes += sum( x == num_group_members for x in counts.values( ) )
             group_answers = ''
             num_group_members = 0
             continue

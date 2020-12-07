@@ -1,29 +1,5 @@
-from typing import Tuple
-
-row_count = 128
-col_count = 8
-
-
-def parse_bsp(s: str) -> Tuple[int, int]:
-    r = range(row_count)
-    c = range(col_count)
-
-    for char in s:
-        if char == "F":
-            r = r[:len(r) // 2]
-        elif char == "B":
-            r = r[len(r) // 2:]
-        elif char == "R":
-            c = c[len(c) // 2:]
-        elif char == "L":
-            c = c[:len(c) // 2]
-
-    return r[0], c[0]
-
-
 with open("inputs/day05.txt", 'r') as f:
-    directions = [parse_bsp(i.strip()) for i in f]
-    ids = sorted([r * 8 + c for r, c in directions])
+    ids = sorted(int(''.join('0' if c in "FL" else '1' for c in line.strip()), 2) for line in f)
 
     print(f"part a: {ids[-1]}")
 

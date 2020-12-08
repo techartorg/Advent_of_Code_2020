@@ -1,77 +1,61 @@
-from typing import Dict, Callable, Tuple, List, Set
+from typing import Dict, Callable, Tuple, List
 
 
-class Machine(object):
-    ops: Dict[str, Callable[[int], None]]
-    acc: int = 0
+def machine(ins: List[Tuple[str, int]]):
+    pointer = 0
+    acc = 0
+    visited = set()
 
-    pointer: int = 0
-    visited: Set[int] = set()
+    def op_nop(_: int):
+        nonlocal pointer
+        pointer += 1
 
-    def __init__(self, ins: List[Tuple[str, int]]):
-        self.ops = {
-            "nop": self.op_nop,
-            "acc": self.op_acc,
-            "jmp": self.op_jmp,
-        }
-        self.ins = ins
+    def op_acc(x: int):
+        nonlocal acc, pointer
+        acc += x
+        pointer += 1
 
-    def op_nop(self, _: int):
-        self.pointer += 1
+    def op_jmp(x: int):
+        nonlocal pointer
+        pointer += x
 
-    def op_acc(self, arg: int):
-        self.acc += arg
-        self.pointer += 1
+    ops: Dict[str, Callable[[int], None]] = {
+        "nop": op_nop,
+        "acc": op_acc,
+        "jmp": op_jmp,
+    }
 
-    def op_jmp(self, arg: int):
-        self.pointer += arg
+    while pointer < len(ins):
+        if pointer in visited:
+            raise ValueError("infinite loop detected")
+        visited.add(pointer)
 
-    def __iter__(self):
-        return self
-
-    def __next__(self):
-        if self.pointer in self.visited:
-            raise ValueError("infinite loop detected in data")
-
-        self.visited.add(self.pointer)
-
-        if self.pointer >= len(self.ins):
-            raise StopIteration()
-
-        op, arg = self.ins[self.pointer]
-        self.ops[op](arg)
-
-        return self.acc
-
-    def reset(self):
-        self.pointer = 0
-        self.acc = 0
-        self.visited.clear()
+        op, arg = ins[pointer]
+        ops[op](arg)
+        yield acc
 
 
 with open("inputs/day08.txt", 'r') as f:
     instructions = ((*line.split(maxsplit=1),) for line in f.read().splitlines())
     instructions = [(op, int(arg)) for op, arg in instructions]
-    machine = Machine(instructions)
 
     try:
-        for _ in machine:
-            pass
+        acc = 0
+        for i in machine(instructions[:]):
+            acc = i
     except ValueError:
-        print(f"part a: {machine.acc}")
+        print(f"part a: {acc}")
 
-    machine.reset()
+        for i, op, arg in ((i, *ins) for i, ins in enumerate(instructions) if ins[0] in ("nop", "jmp")):
+            new_op = "nop" if op == "jmp" else "jmp"
 
-    for i, op, arg in ((i, *ins) for i, ins in enumerate(machine.ins) if ins[0] in ("nop", "jmp")):
-        new_op = "nop" if op == "jmp" else "jmp"
+            new_instructions = instructions[:]
+            new_instructions[i] = (new_op, arg)
 
-        machine.ins[i] = (new_op, arg)
-
-        try:
-            for _ in machine:
+            acc = 0
+            try:
+                for a in machine(new_instructions):
+                    acc = a
+                print(f"part b: {acc}")
+            except ValueError:
                 pass
-            print(f"part b: {machine.acc}")
-            break
-        except ValueError:
-            machine.ins[i] = (op, arg)
-            machine.reset()

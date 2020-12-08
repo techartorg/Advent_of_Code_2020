@@ -35,7 +35,7 @@ def acc( *args ):
     if args[ 1 ][ :1 ] == '+':
         accumulator += val
     else:
-        accumulator -= val    
+        accumulator -= val
     
     return args[ 0 ] + 1, accumulator
     
@@ -63,7 +63,7 @@ if __name__ == '__main__':
 
     ins = [ x.strip( ).split( ' ' ) for x in ( Path.cwd( ) / '8_input.txt' ).open( ).readlines( ) ]
     line_num = 0
-    while line_num <= len( ins ) - 1:
+    while True:
         op = ins[ line_num ]
         line_num, accumulator = _ISA.get( op[ 0 ] )(  line_num, op[ -1 ], accumulator )
             

@@ -1,4 +1,3 @@
-
 inputs = [(op, int(v)) for line in open("day_08.input").read().splitlines() for (op, v) in (line.split(),)]
 
 
@@ -11,7 +10,7 @@ def run_input(inputs):
             op, v = inputs[inst]
         except IndexError:
             print(f"Part 02 {acc}")
-            break
+            return None
         if op == "acc":
             acc += v
         elif op == "jmp":
@@ -29,4 +28,5 @@ jmps = [(idx, op, v) for idx, (op, v) in enumerate(inputs) if op in ("jmp", "nop
 for idx, op, v in jmps:
     n_inputs = inputs[:]
     n_inputs[idx] = ("nop" if op == "jmp" else "jmp", v)
-    run_input(n_inputs[:])
+    if run_input(n_inputs[:]) is None:
+        break

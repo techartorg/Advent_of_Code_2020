@@ -108,6 +108,9 @@ def perform_operation(input_list, ind, acc, visited_inds):
 
 
 def fix_program(input_list):
+    """
+    Brute force the thing because nothing else worked
+    """
     jmps_and_nops = [(ind, operation, int(number)) for ind, (operation, number) in enumerate(input_list) if operation in ['jmp', 'nop']]
     for ind, operation, number in jmps_and_nops:
         new_inputs = input_list[:]

@@ -32,21 +32,14 @@ def op_counter( func ):
 def acc( *args ):
     val = int( args[ 1 ][ 1: ] )
     accumulator = args[ -1 ]
-    if args[ 1 ][ :1 ] == '+':
-        accumulator += val
-    else:
-        accumulator -= val
+    accumulator += int( args[ 1 ] )
     
     return args[ 0 ] + 1, accumulator
     
 
 @op_counter
 def jmp( *args ):
-    val = int( args[ 1 ][ 1: ] )
-    if args[ 1 ][ :1 ] == '+':
-        return args[ 0 ] + val, args[ -1 ]
-    
-    return args[ 0 ] - val, args[ -1 ]
+    return args[ 0 ] + int( args[ 1 ] ), args[ -1 ]
 
 
 @op_counter

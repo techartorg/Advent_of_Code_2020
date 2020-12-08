@@ -48,16 +48,16 @@ with open("inputs/day08.txt", 'r') as f:
     except ValueError:
         print(f"part a: {acc}")
 
-        for i, op, arg in ((i, *ins) for i, ins in enumerate(instructions) if ins[0] in ("nop", "jmp")):
-            new_op = "nop" if op == "jmp" else "jmp"
+    for i, op, arg in ((i, *ins) for i, ins in enumerate(instructions) if ins[0] in ("nop", "jmp")):
+        new_op = "nop" if op == "jmp" else "jmp"
 
-            new_instructions = instructions[:]
-            new_instructions[i] = (new_op, arg)
+        new_instructions = instructions[:]
+        new_instructions[i] = (new_op, arg)
 
-            try:
-                acc = 0
-                for a in machine(new_instructions):
-                    acc = a
-                print(f"part b: {acc}")
-            except ValueError:
-                pass
+        try:
+            acc = 0
+            for a in machine(new_instructions):
+                acc = a
+            print(f"part b: {acc}")
+        except ValueError:
+            pass

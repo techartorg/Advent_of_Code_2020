@@ -111,11 +111,11 @@ def fix_program(input_list):
     jmps_and_nops = [(ind, operation, int(number)) for ind, (operation, number) in enumerate(input_list) if operation in ['jmp', 'nop']]
     for ind, operation, number in jmps_and_nops:
         new_inputs = input_list[:]
-        new_inputs[ind] = ('nop' if operation == 'jmp' else 'jmp', number)
-        new_acc = perform_operation(new_inputs[:], 0, 0, set())
+        new_inputs[ind] = ('jmp' if operation == 'nop' else 'nop', number)
+        new_acc = perform_operation(new_inputs, 0, 0, set())
         if new_acc is None:
             break
 
 
-print(perform_operation(input_list[:], 0, 0, set()))
-fix_program(input_list[:])
+print(perform_operation(input_list, 0, 0, set()))
+fix_program(input_list)

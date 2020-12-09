@@ -4,14 +4,12 @@ from typing import Deque
 
 pzl = open("day_09.input").read().splitlines()
 
-pzl_itr = map(int, pzl)
-
-vals: Deque[int] = deque(maxlen=25)
-
 
 def part_01():
+    preamble_length = 25
+    vals: Deque[int] = deque(maxlen=preamble_length)
     for val in map(int, pzl):
-        if len(vals) != 25:
+        if len(vals) != preamble_length:
             vals.append(val)
             continue
 
@@ -21,8 +19,7 @@ def part_01():
         vals.append(val)
 
 
-val = part_01()
-print(f"Part 01: {val}")
+print(f"Part 01: {(val := part_01())}")
 
 
 def part_02(val):

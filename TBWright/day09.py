@@ -102,11 +102,9 @@ def part01():
     for ind, digit in enumerate(input_list):
         if ind < PREAMBLE_LENGTH:
             continue
-        prev_numbers = set(input_list[ind-PREAMBLE_LENGTH:ind])
-        prev_combos = combinations(prev_numbers, 2)
+        prev_combos = combinations(input_list[ind-PREAMBLE_LENGTH:ind], 2)
         for first, second in prev_combos:
-            summation = first + second
-            if digit == summation:
+            if digit == first + second:
                 passed_digits_set.add(digit)
 
     return input_list_set.difference(passed_digits_set)
@@ -116,13 +114,10 @@ def part02(invalid_num):
     for ind, digit in enumerate(input_list):
         if ind < 1:
             continue
-        all_numbers_below_ind = list(range(0, ind))
-        for below_ind in all_numbers_below_ind:
+        for below_ind in range(0, ind):
             contiguous_set = [number for number in input_list[ind-below_ind:ind]]
-            summation = sum(contiguous_set)
-            if summation == invalid_num and len(contiguous_set) != 1:
-                sorted_contiguous_set = sorted(contiguous_set)
-                return sorted_contiguous_set[0] + sorted_contiguous_set[-1]
+            if sum(contiguous_set) == invalid_num and len(contiguous_set) != 1:
+                return min(contiguous_set) + max(contiguous_set)
 
 
 invalid_number = part01().pop()

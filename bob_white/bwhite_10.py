@@ -20,16 +20,17 @@ cache = {}
 def count_paths(adapters) -> int:
     k = tuple(adapters)
     if k not in cache:
-        # End of the tree, so return a 1
-        if len(adapters) == 1:
-            return 1
-        # We can kill a branch early if the difference to the next node is over 3
-        if abs(sub(*adapters[:2])) > 3:
-            return 0
-        # Branching paths, take the first 2, and test it against the rest of the nodes.
+        # Branching paths, take the first 2 items, and test it against the rest of the nodes.
         # this basically spiderwebs us out into a whole lot of tests, hence why we need to use a lookup cache.
-        a, b, *rest = adapters
-        cache[k] = count_paths([a] + rest) + count_paths([b] + rest)
+        # We do out early if there is a gap greater than 3 between the next two numbers, this is a dead branch.
+        try:
+            a, b, *rest = adapters
+        except ValueError:
+            return 1
+        else:
+            if b - a > 3:
+                return 0
+            cache[k] = count_paths([a] + rest) + count_paths([b] + rest)
     return cache[k]
 
 

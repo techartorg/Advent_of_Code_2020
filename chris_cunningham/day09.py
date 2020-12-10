@@ -19,9 +19,7 @@ def part_a() -> int:
         current = i[preamble_len]
         previous = i[:preamble_len]
 
-        sums = {sum(x) for x in combinations(previous, 2)}
-
-        if current not in sums:
+        if not any(sum(x) == current for x in combinations(previous, 2)):
             return current
 
 

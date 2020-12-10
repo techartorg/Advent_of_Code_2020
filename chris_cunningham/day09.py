@@ -23,11 +23,28 @@ def part_a() -> int:
             return current
 
 
-def part_b(target: int) -> int:
+def part_b_old(target: int) -> int:
     for n in range(2, len(inputs)):
         for i in window(inputs, n):
             if sum(i) == target:
                 return min(i) + max(i)
+
+
+def part_b(target: int) -> int:
+    high = 0
+    low = 0
+    running_sum = inputs[low]
+
+    while running_sum != target:
+        if running_sum < target:
+            high += 1
+            running_sum += inputs[high]
+        elif running_sum > target:
+            running_sum -= inputs[low]
+            low += 1
+
+    potential = inputs[low:high]
+    return min(potential) + max(potential)
 
 
 preamble_len = 25

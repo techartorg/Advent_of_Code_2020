@@ -23,11 +23,9 @@ def count_paths(adapters) -> int:
     if k not in cache:
         # End of the tree, so return a 1
         if len(adapters) == 1:
-            cache[k] = 1
             return 1
         # We can kill a branch early if the difference to the next node is over 3
         if abs(sub(*adapters[:2])) > 3:
-            cache[k] = 0
             return 0
         # Branching paths, take the first 2, and test it against the rest of the nodes.
         # this basically spiderwebs us out into a whole lot of tests, hence why we need to use a lookup cache.

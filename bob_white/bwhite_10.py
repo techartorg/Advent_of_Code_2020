@@ -2,10 +2,9 @@ from collections import deque, defaultdict
 from operator import sub
 from typing import Dict
 
-adapters = list(map(int, open("day_10.input").read().splitlines()))
+adapters = sorted(map(int, open("day_10.input").read().splitlines()))
 device = max(adapters) + 3
 adapters.append(device)
-adapters.sort()
 
 
 jitter_counter: Dict[int, int] = defaultdict(int)

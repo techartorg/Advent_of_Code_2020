@@ -29,6 +29,28 @@ def find_position(seat_lines, code):
 			return find_position(seat_lines[len(seat_lines)//2:], new_code)
 
 codes = [d for d in open('./input_05.txt', 'r').read().split()]
+
 ids = sorted([find_position(list(range(0,128)),code[:7]) * 8 + find_position(list(range(0,8)),code[7:]) for code in codes])
+print("1st version: decode by slicing the string with recursion")
+print(f"The highest seat ID on a boarding pass is: {ids[-1]}")
+print(f"Your seat id is: {list(set(range(ids[0], ids[-1]+1))-set(ids))[0]}")
+
+
+""" SECOND VERSION: Boarding pass as binary form of an int number where F-L mean '0' and B-R mean 1"""
+def string_to_int(code):
+	return int('0b'+''.join('1' if d in 'BR' else d for d in (''.join('0' if c in 'FL' else c for c in code))),2)
+
+ids = sorted([string_to_int(code) for code in codes])
+print("\n2nd version: conversion from binary to int")
+print(f"The highest seat ID on a boarding pass is: {ids[-1]}")
+print(f"Your seat id is: {list(set(range(ids[0], ids[-1]+1))-set(ids))[0]}")
+
+
+""" DUMB BOY!! Why 2 loops for binary conversion?!? It's simpler... and shorter... """
+def string_to_int_faster(code):
+	return int(''.join('0' if c in 'FL' else '1' for c in code),2)
+
+ids = sorted([string_to_int_faster(code) for code in codes])
+print("\n3rd version: smarter conversion from binary to int")
 print(f"The highest seat ID on a boarding pass is: {ids[-1]}")
 print(f"Your seat id is: {list(set(range(ids[0], ids[-1]+1))-set(ids))[0]}")

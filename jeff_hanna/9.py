@@ -18,7 +18,6 @@ def _find_num_without_prev_sum( nums, preamble_num ):
         d.append( n )
 
 
-
 def _find_sum_nums( nums, total ):
     for i in range( 2, len( nums ) ):
         d = deque( maxlen = i )

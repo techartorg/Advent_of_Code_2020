@@ -86,7 +86,6 @@ print(musical_chairs())
 def find_neighbors_along_direction(row, column, offsetX, offsetY, seatingChart):
     x = offsetX
     y = offsetY
-    neighbors = []
     while True:
         neigh = get_neighbor(row, column, x, y, seatingChart)
         if not neigh:
@@ -98,7 +97,6 @@ def find_neighbors_along_direction(row, column, offsetX, offsetY, seatingChart):
                 return 0
         x += offsetX
         y += offsetY
-    return neighbors
 
 
 def occupied_neighbors2(row, column, seatingChart):

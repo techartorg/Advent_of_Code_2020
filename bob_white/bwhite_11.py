@@ -3,7 +3,6 @@ If a seat is empty (L) and there are no occupied seats adjacent to it, the seat 
 If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
 Otherwise, the seat's state does not change.
 """
-from pprint import pprint
 from itertools import product
 
 pzl = open("day_11.input").read()
@@ -11,74 +10,42 @@ vectors = list(product(range(-1, 2), range(-1, 2)))
 vectors.remove((0, 0))
 
 
-def get_occupied(x, y, grid):
+def get_occupied(x, y, grid, *, skip_empty=False):
     cnt = 0
-    vals = []
     for dx, dy in vectors:
         cx, cy = (dx + x), (dy + y)
-        if not (0 <= cx < len(grid[0])) or not (0 <= cy < len(grid)):
-            continue
-
-        cnt += grid[dy + y][dx + x] == "#"
-        vals.append(grid[dy + y][dx + x])
-
-    return cnt
-
-
-while True:
-    old_pzl = pzl
-    grid = [[c for c in line] for line in pzl.splitlines()]
-    new_grid = [line[:] for line in grid]
-    for ydx, line in enumerate(grid):
-        for xdx, val in enumerate(line):
-            occupied = get_occupied(xdx, ydx, grid)
-            if val == "L" and not occupied:
-                new_grid[ydx][xdx] = "#"
-            elif val == "#" and occupied >= 4:
-                new_grid[ydx][xdx] = "L"
-    pzl = "\n".join("".join(line) for line in new_grid)
-    if old_pzl == pzl:
-        break
-
-print(f'Part 01: {pzl.count("#")}')
-pzl = open("day_11.input").read()
-
-
-def get_occupied2(x, y, grid):
-    cnt = 0
-    for dx, dy in vectors:
-        cx = dx + x
-        cy = dy + y
-        try:
-            while grid[cy][cx] not in ("#", "L"):
-                cx += dx
-                cy += dy
-
-        except IndexError:
-            pass
-        else:
-            if not 0 <= cx < len(grid[0]):
-                continue
-            if not 0 <= cy < len(grid):
-                continue
-            cnt += grid[cy][cx] == "#"
+        while skip_empty and grid.get((cx, cy), "L") not in ("L", "#"):
+            cx += dx
+            cy += dy
+        cnt += grid.get((cx, cy)) == "#"
 
     return cnt
 
 
+grid = {(x, y): v for y, line in enumerate(pzl.splitlines()) for x, v in enumerate(line)}
 while True:
-    old_pzl = pzl
-
-    grid = [[c for c in line] for line in pzl.splitlines()]
-    new_grid = [line[:] for line in grid]
-    for ydx, line in enumerate(grid):
-        for xdx, val in enumerate(line):
-            occupied = get_occupied2(xdx, ydx, grid)
-            if val == "L" and not occupied:
-                new_grid[ydx][xdx] = "#"
-            elif val == "#" and occupied >= 5:
-                new_grid[ydx][xdx] = "L"
-    pzl = "\n".join("".join(line) for line in new_grid)
-    if old_pzl == pzl:
+    next_grid = grid.copy()
+    for (xdx, ydx), val in grid.items():
+        occupied = get_occupied(xdx, ydx, grid)
+        if val == "L" and not occupied:
+            next_grid[(xdx, ydx)] = "#"
+        elif val == "#" and occupied >= 4:
+            next_grid[(xdx, ydx)] = "L"
+    if next_grid == grid:
         break
-print(f'Part 02: {pzl.count("#")}')
+    grid = next_grid
+print(f'Part 01: {list(grid.values()).count("#")}')
+
+grid = {(x, y): v for y, line in enumerate(pzl.splitlines()) for x, v in enumerate(line)}
+while True:
+    next_grid = grid.copy()
+    for (xdx, ydx), val in grid.items():
+        occupied = get_occupied(xdx, ydx, grid, skip_empty=True)
+        if val == "L" and not occupied:
+            next_grid[(xdx, ydx)] = "#"
+        elif val == "#" and occupied >= 5:
+            next_grid[(xdx, ydx)] = "L"
+    if next_grid == grid:
+        break
+    grid = next_grid
+print(f'Part 01: {list(grid.values()).count("#")}')

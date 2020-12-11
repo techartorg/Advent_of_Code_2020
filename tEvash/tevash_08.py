@@ -1,4 +1,3 @@
-# read in input and auto convert to int
 with open("inputs_8.txt") as f:
 	inputs = [x.strip().split(" ") for x in f.readlines()]
 

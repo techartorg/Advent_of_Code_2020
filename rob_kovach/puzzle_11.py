@@ -57,9 +57,8 @@ def is_time_to_go(row, column, seatingChart):
 
 
 def musical_chairs():
-    import copy
     previous_round = seating_array
-    current_round = copy.deepcopy(previous_round)
+    current_round = [sublist[:] for sublist in previous_round]
     occupied_seats = 0
     while True:
         for row in range(rows):
@@ -77,7 +76,7 @@ def musical_chairs():
         if current_round == previous_round:
             break
         else:
-            previous_round = copy.deepcopy(current_round)
+            previous_round = [sublist[:] for sublist in current_round]
     return occupied_seats
 
 print(musical_chairs())
@@ -121,9 +120,8 @@ def is_time_to_go2(row, column, seatingChart):
 
 
 def musical_chairs2():
-    import copy
     previous_round = seating_array
-    current_round = copy.deepcopy(previous_round)
+    current_round = [sublist[:] for sublist in previous_round]
     occupied_seats = 0
     while True:
         for row in range(rows):
@@ -141,7 +139,8 @@ def musical_chairs2():
         if current_round == previous_round:
             break
         else:
-            previous_round = copy.deepcopy(current_round)
+            previous_round = [sublist[:] for sublist in current_round]
     return occupied_seats
+
 
 print(musical_chairs2())

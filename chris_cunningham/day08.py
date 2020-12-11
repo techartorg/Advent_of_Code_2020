@@ -1,10 +1,10 @@
 from typing import Dict, Callable, Tuple, List
+import inspect
 
 
 def machine(ins: List[Tuple[str, int]]):
     pointer = 0
     acc = 0
-    visited = set()
 
     def op_nop(_: int):
         nonlocal pointer
@@ -24,6 +24,8 @@ def machine(ins: List[Tuple[str, int]]):
         "acc": op_acc,
         "jmp": op_jmp,
     }
+
+    visited = set()
 
     while pointer < len(ins):
         if pointer in visited:
@@ -46,16 +48,16 @@ with open("inputs/day08.txt", 'r') as f:
     except ValueError:
         print(f"part a: {acc}")
 
-        for i, op, arg in ((i, *ins) for i, ins in enumerate(instructions) if ins[0] in ("nop", "jmp")):
-            new_op = "nop" if op == "jmp" else "jmp"
+    for i, op, arg in ((i, *ins) for i, ins in enumerate(instructions) if ins[0] in ("nop", "jmp")):
+        new_op = "nop" if op == "jmp" else "jmp"
 
-            new_instructions = instructions[:]
-            new_instructions[i] = (new_op, arg)
+        new_instructions = instructions[:]
+        new_instructions[i] = (new_op, arg)
 
+        try:
             acc = 0
-            try:
-                for a in machine(new_instructions):
-                    acc = a
-                print(f"part b: {acc}")
-            except ValueError:
-                pass
+            for a in machine(new_instructions):
+                acc = a
+            print(f"part b: {acc}")
+        except ValueError:
+            pass

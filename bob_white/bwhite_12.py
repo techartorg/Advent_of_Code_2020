@@ -1,54 +1,38 @@
-pzl = """F10
-N3
-F7
-R90
-F11""".splitlines()
-
 pzl = open("day_12.input").read().splitlines()
 
-pos_01 = 0j
-pos_02 = 0j
+pos_01 = pos_02 = 0j
 facing = 1 + 0j
 waypoint = 10 + 1j
 
-for mov in pzl:
-    d = mov[0]
-    v = int(mov[1:])
-    if d == "F":
-        pos_01 += v * facing
-        pos_02 += v * waypoint
-    elif d == "R":
-        if v == 90:
-            facing *= -1j
-            waypoint *= -1j
-        elif v == 270:
-            facing *= 1j
-            waypoint *= 1j
-        elif v == 180:
-            facing *= -1
-            waypoint *= -1
-    elif d == "L":
-        if v == 90:
-            facing *= 1j
-            waypoint *= 1j
-        if v == 270:
-            facing *= -1j
-            waypoint *= -1j
-        if v == 180:
-            facing *= -1
-            waypoint *= -1
-    elif d == "N":
-        pos_01 += 1j * v
-        waypoint += 1j * v
-    elif d == "S":
-        pos_01 -= 1j * v
-        waypoint -= 1j * v
-    elif d == "W":
-        pos_01 -= v
-        waypoint -= v
-    elif d == "E":
-        pos_01 += v
-        waypoint += v
+directions = {
+    "N": 1j,
+    "S": -1j,
+    "E": 1,
+    "W": -1,
+}
 
-print(abs(pos_01.real) + abs(pos_01.imag))
-print(abs(pos_02.real) + abs(pos_02.imag))
+rotations = {
+    "R90": -1j,
+    "R180": -1,
+    "R270": 1j,
+    "L90": 1j,
+    "L180": -1,
+    "L270": -1j,
+}
+
+for mov in pzl:
+    direction = mov[0]
+    distance = int(mov[1:])
+    if direction == "F":
+        pos_01 += distance * facing
+        pos_02 += distance * waypoint
+    elif mov in rotations:
+        facing *= rotations[mov]
+        waypoint *= rotations[mov]
+    elif direction in directions:
+        pos_01 += directions[direction] * distance
+        waypoint += directions[direction] * distance
+
+
+print(f"Part 01: {int(abs(pos_01.real) + abs(pos_01.imag))}")
+print(f"Part 02: {int(abs(pos_02.real) + abs(pos_02.imag))}")

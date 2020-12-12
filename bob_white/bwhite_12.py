@@ -26,12 +26,12 @@ for mov in pzl:
     if direction == "F":
         pos_01 += distance * facing
         pos_02 += distance * waypoint
-    elif mov in rotations:
-        facing *= rotations[mov]
-        waypoint *= rotations[mov]
-    elif direction in directions:
-        pos_01 += directions[direction] * distance
-        waypoint += directions[direction] * distance
+    elif (rot := rotations.get(mov)) :
+        facing *= rot
+        waypoint *= rot
+    elif (direction_vector := directions.get(direction)) :
+        pos_01 += direction_vector * distance
+        waypoint += direction_vector * distance
 
 
 print(f"Part 01: {int(abs(pos_01.real) + abs(pos_01.imag))}")

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from collections import Counter
-from contextlib import suppress
 from copy import deepcopy
 from pathlib import Path
 
@@ -16,11 +15,64 @@ _TEST_DATA = ( 'L.LL.LL.LL',
                'L.LLLLLL.L',
                'L.LLLLL.LL' )
 
+
+def __empty_seat_check( i, seat, row, prev_row, next_row ):
+    '''
+    If a seat is empty (L) and there are no occupied seats adjacent to it, the seat becomes occupied.
+    '''
+
+    adjacent_count = 0
+    # Current Row
+    if i == 0 or i == len( row ) - 1: # left and right seats
+        adjacent_count += 3 # horiz, diagonal prev, and diagonal next
+    if i != 0 and row[ i - 1 ] != '#':
+        adjacent_count += 1 
+    if i != len( row ) - 1 and row[ i + 1 ] != '#':
+        adjacent_count += 1
+
+    # Prev and Next rows
+    for j in range( i - 1, i + 2 ):
+        #with suppress( IndexError ):
+        if j >= 0 and j <= len( row ) - 1:
+            if prev_row[ j ] != '#':
+                adjacent_count += 1
+            if next_row[ j ] != '#':
+                adjacent_count += 1
+    
+    new_seat = '#' if adjacent_count == 8 else seat
+    return new_seat
+
+
+def __occupied_seat_check( i, seat, row, prev_row, next_row ):
+    '''
+    If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
+    Otherwise, the seat's state does not change.
+    '''
+    
+    adjacent_count = 0
+
+    # Current Row
+    if i != 0 and row[ i - 1 ] == '#':
+        adjacent_count += 1
+    if i != len( row ) - 1 and row[ i + 1 ] == '#':
+        adjacent_count += 1
+
+    # Prev and Next rows
+    for j in range( i - 1, i + 2 ):
+        if j >= 0 and j <= len( row ) - 1:
+            if prev_row[ j ] == '#':
+                adjacent_count += 1
+            if next_row[ j ] == '#':
+                adjacent_count += 1
+
+    new_seat =  'L' if adjacent_count >= 4 else seat
+    return new_seat
+
+
 def _seat_check( row, prev_row, next_row ):
     new_row = ''
     for i, seat in enumerate( row ):        
-        adjacent_count = 0
-        
+                
         # Floor
         if seat == '.':
             new_row += '.'
@@ -28,54 +80,12 @@ def _seat_check( row, prev_row, next_row ):
 
         # Empty seat
         elif seat == 'L':
-            '''If a seat is empty (L) and there are no occupied seats adjacent to it, the seat becomes occupied.'''
-            # Current Row
-            if i == 0 or i == len( row ) - 1: # left and right seats
-                adjacent_count += 3 # horiz, diagonal prev, and diagonal next
-            if i != 0 and row[ i - 1 ] != '#':
-                adjacent_count += 1 
-            if i != len( row ) - 1 and row[ i + 1 ] != '#':
-                adjacent_count += 1
-
-            # Prev and Next rows
-            for j in range( i - 1, i + 2 ):
-                #with suppress( IndexError ):
-                if j >= 0 and j <= len( row ) - 1:
-                    if prev_row[ j ] != '#':
-                        adjacent_count += 1
-                    if next_row[ j ] != '#':
-                        adjacent_count += 1
-
-            if adjacent_count == 8:
-                new_row += '#'
-            else:
-                new_row += seat
-
+            new_row += __empty_seat_check( i, seat, row, prev_row, next_row )
+          
         # Occupied Seat
         else: # seat == '#':
-            '''If a seat is occupied (#) and four or more seats adjacent to it are also occupied, the seat becomes empty.
-                Otherwise, the seat's state does not change.'''
-            
-            # Current Row
-            if i != 0 and row[ i - 1 ] == '#':
-                adjacent_count += 1
-            if i != len( row ) - 1 and row[ i + 1 ] == '#':
-                adjacent_count += 1
-
-            # Prev and Next rows
-            for j in range( i - 1, i + 2 ):
-                #with suppress( IndexError ):
-                if j >= 0 and j <= len( row ) - 1:
-                    if prev_row[ j ] == '#':
-                        adjacent_count += 1
-                    if next_row[ j ] == '#':
-                        adjacent_count += 1
-
-            if adjacent_count >= 4:
-                new_row += 'L'
-            else:
-                new_row += seat
-            
+            new_row += __occupied_seat_check( i, seat, row, prev_row, next_row )
+                        
     return new_row
 
 
@@ -84,7 +94,6 @@ def _part_1( seat_map ):
     
     run = True
     while run:
-        #with suppress( IndexError ):
         new_seat_map = [ ]
 
         for i, row in enumerate( seat_map ):

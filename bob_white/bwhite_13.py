@@ -1,6 +1,5 @@
 from operator import mul
 from collections import deque
-from math import gcd
 
 time, buses = open("day_13.input").read().splitlines()
 
@@ -12,16 +11,15 @@ print(f"Part 01: {mul(*min(closest))}")
 bus_deque = deque(bus_ids)
 t, step = bus_deque.popleft()
 while bus_deque:
-    idx, bus_id = bus_deque[0]
-    # Keep steping foward by the next multiple of our busses.
-    if (t + idx) % bus_id:
+    offset, next_step = bus_deque[0]
+    # Keep stepping foward by the next multiple of our busses.
+    if (t + offset) % next_step:
         t += step
     else:
-        # When the remainder is zero, we can add a new bus to the system
-        # so we need to get a new LCM - least common multiple from our old
-        # time step, and the new bus_id
-        # Then we can pop off a new bus and work our way through the list.
-        step = abs(step * bus_id) // gcd(step, bus_id)
+        # Remainder is zero, so we've found the next offset, need to up our step value by the next_step, and grab the next
+        # Luckily all the bus_ids are prime, so we can just keep multilying the step values together.
+        # otherwise we'd need to find the least common multipler so that we don't accidently overshoot.
+        step *= next_step
         bus_deque.popleft()
 
 print(f"Part 02: {t}")

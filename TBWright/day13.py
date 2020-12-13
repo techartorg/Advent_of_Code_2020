@@ -10,12 +10,8 @@ bus_ids = [_id for _id in open_input.readline().strip().split(',')]
 
 """
 Part 2 uses the Chinese Remainder Theorem. I can't even pretend to know what it fully does.
-In short:
-We are trying to solve `(time + ind) % _id == 0` for every bus in the list.
-Find the first number that solves this for the first two buses, then find the least common multiple of those.
-Then use that LCM as the new time, and solve for that and the third bus.
-Continue doing this until we end up with a single value that satisfies all the buses.
 
+https://en.wikipedia.org/wiki/Chinese_remainder_theorem
 https://rosettacode.org/wiki/Chinese_remainder_theorem#Python
 """
 

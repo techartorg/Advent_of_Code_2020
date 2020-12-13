@@ -313,36 +313,3 @@ if __name__ == "__main__":
 		data_dict = { }
 
 	print( "\nValid number of entries: {0}".format( len( passport_db ) ) )
-
-
-	# puzzle_input = """
-	# ecl:gry pid:860033327 eyr:2020 hcl:#fffffd
-	# byr:1937 iyr:2017 cid:147 hgt:183cm
-	# iyr:2013 ecl:amb cid:350 eyr:2023 pid:028048884
-	# hcl:#cfa07d byr:1929
-	# hcl:#ae17e1 iyr:2013
-	# eyr:2024
-	# ecl:brn pid:760753108 byr:1931
-	# hgt:179cm
-	# hcl:#cfa07d eyr:2025 pid:166559648
-	# iyr:2011 ecl:brn hgt:59in"""[
-											 # 1:
-	# ].split(
-		# "\n\n"
-	# )
-	# fields = {
-		# "byr",
-		 # "iyr",
-		 # "eyr",
-		 # "hgt",
-		 # "hcl",
-		 # "ecl",
-		 # "pid",
-		 # "cid",
-	# }
-	# puzzle_input = open("day_04_input.txt").read().split("\n\n")
-	# puzzle_input = open(r'D:\Dropbox\Projects\Python\Advent_of_Code\2020\day_04_input.txt').read().split("\n\n")
-	# # We can skip "cid" throughout, so we'll just not worry about it in our passport dictionaries.
-	# passports = [{k: v for pair in group.split() for k, v in (pair.split(":"),) if k != "cid"} for group in puzzle_input]
-	# # PART 01
-	# print(sum(fields.symmetric_difference(passport) == {"cid"} for passport in passports))

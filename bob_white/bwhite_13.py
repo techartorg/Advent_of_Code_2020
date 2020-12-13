@@ -5,10 +5,8 @@ from math import gcd
 time, buses = open("day_13.input").read().splitlines()
 
 bus_ids = [(idx, int(bus)) for idx, bus in enumerate(buses.split(",")) if bus != "x"]
-closest = []
-for _, bus in bus_ids:
-    closest.append(((int(time) // bus) * bus - int(time) + bus, bus))
-print(mul(*min(closest)))
+closest = [((int(time) // bus) * bus - int(time) + bus, bus) for _, bus in bus_ids]
+print(f"Part 01: {mul(*min(closest))}")
 
 
 bus_deque = deque(bus_ids)
@@ -26,4 +24,4 @@ while bus_deque:
         step = abs(step * bus_id) // gcd(step, bus_id)
         bus_deque.popleft()
 
-print(t)
+print(f"Part 02: {t}")

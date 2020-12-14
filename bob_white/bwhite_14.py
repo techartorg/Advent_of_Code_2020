@@ -31,9 +31,13 @@ for line in pzl:
         # But we start with the unmasked address, then update each bit based on the mask, creating 2 new address for any X (with 0 and 1 values)
         for idx, v in enumerate(mask):
             if v == "1":
-                addrs[:] = [addr[:] for addr in addrs if not setitem(addr, idx, "1")]
+                new_vals = ["1"]
             elif v == "X":
-                addrs[:] = [addr[:] for addr in addrs for nv in ("0", "1") if not setitem(addr, idx, nv)]
+                new_vals = ["0", "1"]
+            else:
+                continue
+            # lot of slicing, mostly we need to ensure that we're saving off a copy each iteration, so that we don't mutate the original
+            addrs[:] = [addr[:] for addr in addrs for nv in new_vals if not setitem(addr, idx, nv)]
         for addr in addrs:
             memory[int("".join(addr), 2)] = int(val)
 print(sum(memory.values()))

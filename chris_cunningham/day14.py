@@ -5,13 +5,6 @@ from typing import Iterable
 mem_re = re.compile(r"mem\[(\d+?)]")
 
 
-def bits(n: int) -> Iterable[int]:
-    while n:
-        b = n & (~n+1)
-        yield b
-        n ^= b
-
-
 def create_masks(mask_str: str) -> Iterable[int]:
     mask_len = mask_str.count("X")
     mask_str = mask_str.replace("X", "{}")

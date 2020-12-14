@@ -22,7 +22,7 @@ for line in pzl:
         mask_map = {idx: ["1"] if v == "1" else ["0", "1"] for idx, v in enumerate(val) if v != "0"}
     elif loc.startswith("mem"):
         bin_address = f"{int(regex.findall(loc)[0]):036b}"
-        masked_val = "".join(a if b == "X" else b for a, b in zip(f"{int(val):036b}", mask))
+        masked_val = "".join(val_bit if mask_bit == "X" else mask_bit for val_bit, mask_bit in zip(f"{int(val):036b}", mask))
         part_01[bin_address] = int(masked_val, 2)
 
         # Creating the collection of addresses from the mask is a little funny.

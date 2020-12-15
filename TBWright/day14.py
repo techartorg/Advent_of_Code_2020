@@ -38,12 +38,11 @@ def part01(input_list):
 def part02(input_list):
     current_mask = ''
     memory = {}
-    for ind, (operation, value) in enumerate(input_list):
+    for operation, value in input_list:
         if operation == 'mask':
             current_mask = value
         else:
             address = '{:036b}'.format(int(mem_pattern.match(operation).group(1)))
-            value = '{:036b}'.format(int(value))
             write_addr = ['0']*36
             for ind1, (val, mask) in enumerate(zip(address, current_mask)):
                 if mask == '0':
@@ -55,7 +54,7 @@ def part02(input_list):
             perms = [tuple(prod) for prod in product(('0', '1'), repeat=write_addr.count('{}'))]
             for perm in perms:
                 new_addr = ''.join(write_addr).format(*perm)
-                memory[int(new_addr, 2)] = int(value, 2)
+                memory[new_addr] = int(value)
 
     return sum(memory.values())
 

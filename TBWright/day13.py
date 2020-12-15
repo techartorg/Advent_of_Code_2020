@@ -1,7 +1,7 @@
 """
 
 """
-
+from lib.helpers import timer
 from functools import reduce
 
 open_input = open("inputs/day13_input.txt", "r")
@@ -39,6 +39,7 @@ def chinese_remainder(n, a):
     return _sum % prod
 
 
+@timer
 def part01(bus_id_list, timestamp):
     _id, prop = 0, 0
     for bus_id in bus_id_list:
@@ -50,6 +51,7 @@ def part01(bus_id_list, timestamp):
     return _id, prop, (_id * (round(prop)*_id - timestamp))
 
 
+@timer
 def part02(bus_id_list):
     a, n = [], []
     for ind, bus_id in enumerate(bus_id_list):
@@ -61,5 +63,24 @@ def part02(bus_id_list):
     return chinese_remainder(n, a)
 
 
+@timer
+def part02_take_deux(bus_id_list):
+    span, t = int(bus_id_list[0]), 0
+    for ind, bus_id in enumerate(bus_id_list):
+        if bus_id == 'x':
+            continue
+        offset = -1
+        while True:
+            if (t + ind) % int(bus_id) == 0:
+                if offset == -1:
+                    offset = t
+                else:
+                    span = t - offset
+                    break
+            t += span
+    return offset
+
+
 print(part01(bus_ids, earliest_timestamp))
 print(part02(bus_ids))
+print(part02_take_deux(bus_ids))

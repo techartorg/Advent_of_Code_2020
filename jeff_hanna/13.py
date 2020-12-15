@@ -54,7 +54,7 @@ def _part_2( earliest_departure, bus_routes ):
     In this example, the earliest timestamp at which this occurs is 1068781:
     '''
 
-    pass
+    return -1
     
 
 

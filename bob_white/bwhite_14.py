@@ -1,4 +1,6 @@
 import re
+import time
+from itertools import product
 
 
 def replace_at_index(collection, index, value):
@@ -30,9 +32,14 @@ for line in pzl:
         masked_addresses = [list(bin_address)]
         for idx, new_vals in mask_map.items():
             masked_addresses[:] = [replace_at_index(address, idx, nv) for address in masked_addresses for nv in new_vals]
-        assert len(masked_addresses) == 2 ** mask.count("X")  # We amke a lot of masked_addresses.
-        for address in masked_addresses:
-            part_02["".join(address)] = int(val)
+        assert len(masked_addresses) == 2 ** mask.count("X")  # We make a lot of masked_addresses.
+
+        # This is about 10x faster. Less slicing less function calls, less iterations.
+        masked_address = "".join(address_bit if mask_bit == "0" else "1" if mask_bit == "1" else "{}" for address_bit, mask_bit in zip(bin_address, mask))
+        masked_address_strings = (masked_address.format(*p) for p in product([0, 1], repeat=mask.count("X")))
+
+        for address in masked_address_strings:
+            part_02[address] = int(val)
 
 print(f"Part_01: {sum(part_01.values())}")
 print(f"Part_02: {sum(part_02.values())}")

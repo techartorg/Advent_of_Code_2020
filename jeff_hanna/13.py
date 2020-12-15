@@ -19,7 +19,7 @@ def _part_1( earliest_departure, bus_routes ):
 
     To save time once you arrive, your goal is to figure out the earliest bus you can take to the airport. (There will be exactly one such bus.)
     '''
-    
+
     closest = [ earliest_departure *2, -1 ] # 2x earliest_departure just to get a number sufficiently larger than the desired departure time as a max.
     
     for bus_id in bus_routes:
@@ -32,6 +32,28 @@ def _part_1( earliest_departure, bus_routes ):
 
 
 def _part_2( earliest_departure, bus_routes ):
+    '''
+    The shuttle company is running a contest: one gold coin for anyone that can find the earliest timestamp such that the first bus ID departs at that time and each subsequent listed bus ID departs at that subsequent minute. (The first line in your input is no longer relevant.)
+
+    For example, suppose you have the same list of bus IDs as above:
+
+    7,13,x,x,59,x,31,19
+    An x in the schedule means there are no constraints on what bus IDs must depart at that time.
+
+    This means you are looking for the earliest timestamp (called t) such that:
+
+    Bus ID 7 departs at timestamp t.
+    Bus ID 13 departs one minute after timestamp t.
+    There are no requirements or restrictions on departures at two or three minutes after timestamp t.
+    Bus ID 59 departs four minutes after timestamp t.
+    There are no requirements or restrictions on departures at five minutes after timestamp t.
+    Bus ID 31 departs six minutes after timestamp t.
+    Bus ID 19 departs seven minutes after timestamp t.
+    The only bus departures that matter are the listed bus IDs at their specific offsets from t. Those bus IDs can depart at other times, and other bus IDs can depart at those times. For example, in the list above, because bus ID 19 must depart seven minutes after the timestamp at which bus ID 7 departs, bus ID 7 will always also be departing with bus ID 19 at seven minutes after timestamp t.
+
+    In this example, the earliest timestamp at which this occurs is 1068781:
+    '''
+
     pass
     
 

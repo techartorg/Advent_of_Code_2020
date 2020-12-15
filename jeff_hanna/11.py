@@ -367,11 +367,11 @@ def _main( seat_map, part ):
 
 
 if __name__ == '__main__':
-    # seat_map = [ x.strip( ) for x in ( Path.cwd( ) / '11_input.txt' ).open( ).readlines( ) ]
-    seat_map = _TEST_DATA
+    seat_map = [ x.strip( ) for x in ( Path.cwd( ) / '11_input.txt' ).open( ).readlines( ) ]
+    # seat_map = _TEST_DATA
     
     # Part 1
-    # print( _main( seat_map, 'part1' ) )
+    print( _main( seat_map, 'part1' ) )
 
     # Part 2
     print( _main( seat_map, 'part2' ) )

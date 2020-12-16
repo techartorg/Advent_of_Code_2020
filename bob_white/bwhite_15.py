@@ -1,20 +1,13 @@
-pzl = list(map(int, open("day_15.input").read().split(",")))
-# pzl = list(map(int, "0,3,6".split(",")))
-# pzl = list(map(int, "2,1,3".split(",")))
-# pzl = list(map(int, "1,3,2".split(",")))
-from collections import defaultdict, deque
-from typing import Dict, Deque
-
-# pzl += [0] * (2020 - len(pzl))
-pzl += [0] * (30000000 - len(pzl))
-
-spoken: Dict[int, Deque[int]] = defaultdict(lambda: deque(maxlen=2))
-for turn, num in enumerate(pzl):
-    if not num and len((last_said := spoken[pzl[turn - 1]])) == 2:
-        num = last_said[-1] - last_said[0]
-
-    spoken[num].append(turn)
-    pzl[turn] = num
-
-print(f"Part 01: {pzl[2019]}")  # Off by ones will kill me.
-print(f"Part 02: {pzl[-1]}")
+pzl_input = list(map(int, open("day_15.input").read().split(",")))
+# Starting one early so we can peak at the previous spoken value.
+spoken = {v: idx for idx, v in enumerate(pzl_input, 1)}
+prev_num = num = pzl_input[-1]
+for turn in range(len(spoken), 30_000_001):
+    # Because turn is the last time the word was spoken, we only need to store one value, not two.
+    num = turn - spoken[prev_num] if prev_num in spoken else 0
+    spoken[prev_num] = turn
+    if turn == 2020:
+        print(prev_num)
+    elif turn == 30_000_000:
+        print(prev_num)
+    prev_num = num

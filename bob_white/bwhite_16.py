@@ -1,6 +1,6 @@
-from operator import mul
-from functools import reduce
+from math import prod
 from collections import defaultdict
+from ast import literal_eval
 from typing import Dict, Set
 
 # Notes doesn't have a heading, and is the first block, so we don't want to strip off the first line
@@ -13,13 +13,13 @@ for note in notes:
         m, x = map(int, spread.split("-"))
         note_map[key].update(range(m, x + 1))
 
-tickets = [list(map(int, line.split(","))) for line in other_tickets]
-errors = [(idx, v) for idx, t in enumerate(tickets) for v in t if not any(v in vals for vals in note_map.values())]
-print(f"Part 01: {sum(v[1] for v in errors)}")
+tickets = [literal_eval(line) for line in other_tickets]
+bad_tickets, errors = zip(*((idx, v) for idx, t in enumerate(tickets) for v in t if not any(v in vals for vals in note_map.values())))
+print(f"Part 01: {sum(errors)}")
 
 # Removing known bad tickets, also adding my hopefully valid ticket.
-valid_tickets = [ticket for idx, ticket in enumerate(tickets) if idx not in {v[0] for v in errors}]
-valid_tickets.append(list(map(int, my_ticket[0].split(","))))
+valid_tickets = [ticket for idx, ticket in enumerate(tickets) if idx not in bad_tickets]
+valid_tickets.append(literal_eval(my_ticket[0]))
 
 # find all fields that are valid for every column of ticket data.
 potential_fields: Dict[str, Set[int]] = defaultdict(set)
@@ -32,11 +32,11 @@ for field, valid in note_map.items():
 # We sort them in by number of valid columns
 # then strip already used columns from the rest of the fields
 for potential, values in sorted(potential_fields.items(), key=lambda x: len(x[-1])):
-    (current_field_index,) = values  # This will happily explode if we hit a column that still thinks more than one index is valid.
+    (current_field_index,) = values  # This will happily explode if we hit a column that still thinks more than one column is valid.
     for other_field, other_values in potential_fields.items():
         if potential == other_field:
             continue
         other_values.discard(current_field_index)
 
-# Finally an answer!
-print(f"Part 02: {reduce(mul, [valid_tickets[-1][idx.pop()] for field, idx in potential_fields.items() if field.startswith('departure')])}")
+# Finally an answer! Also, remember my ticket is the last one in the list.
+print(f"Part 02: {prod(valid_tickets[-1][idx.pop()] for field, idx in potential_fields.items() if field.startswith('departure'))}")

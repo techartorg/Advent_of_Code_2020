@@ -15,10 +15,7 @@ for step in range(1, 7):
     new_cube = defaultdict(int)
     for loc in product(*(range(min_, max_) for min_, max_ in zip(mins, maxs))):
         active = sum(cube_01[tuple(sum(v) for v in zip(loc, d))] for d in directions)
-        if cube_01[loc] and active in (2, 3):
-            new_cube[loc] = 1
-        elif not cube_01[loc] and active == 3:
-            new_cube[loc] = 1
+        new_cube[loc] = cube_01[loc] and active in (2, 3) or not cube_01[loc] and active == 3
     cube_01 = new_cube.copy()
 print(sum(cube_01.values()))
 
@@ -33,9 +30,6 @@ for step in range(1, 7):
     new_cube = defaultdict(int)
     for loc in product(*(range(min_, max_) for min_, max_ in zip(mins, maxs))):
         active = sum(cube_02[tuple(sum(v) for v in zip(loc, d))] for d in directions)
-        if cube_02[loc] and active in (2, 3):
-            new_cube[loc] = 1
-        elif not cube_02[loc] and active == 3:
-            new_cube[loc] = 1
+        new_cube[loc] = cube_02[loc] and active in (2, 3) or not cube_02[loc] and active == 3
     cube_02 = new_cube.copy()
 print(sum(cube_02.values()))

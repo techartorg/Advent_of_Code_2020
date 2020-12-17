@@ -1,5 +1,5 @@
 from collections import deque
-from itertools import combinations, islice
+from itertools import combinations
 from typing import Deque
 
 pzl = open("day_09.input").read().splitlines()

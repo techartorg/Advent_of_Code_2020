@@ -4,8 +4,7 @@ from collections import defaultdict
 pzl = open("day_17.input").read().splitlines()
 
 # Part 1
-cube = defaultdict(int)
-cube.update({(x, y, 0): int(v == "#") for y, line in enumerate(pzl) for x, v in enumerate(line)})
+cube = defaultdict(int) | {(x, y, 0): int(v == "#") for y, line in enumerate(pzl) for x, v in enumerate(line)}
 directions_01 = [v for v in product((-1, 0, 1), repeat=3) if any(v)]
 
 for _ in range(0, 6):
@@ -17,12 +16,9 @@ for _ in range(0, 6):
 print(sum(cube.values()))
 
 # Part 2
-hypercube = defaultdict(int)
-hypercube.update({(x, y, 0, 0): int(v == "#") for y, line in enumerate(pzl) for x, v in enumerate(line)})
+hypercube = defaultdict(int) | {(x, y, 0, 0): int(v == "#") for y, line in enumerate(pzl) for x, v in enumerate(line)}
 directions_02 = [v for v in product((-1, 0, 1), repeat=4) if any(v)]
 
-hypercube = defaultdict(int)
-hypercube.update({(x, y, 0, 0): int(v == "#") for y, line in enumerate(pzl) for x, v in enumerate(line)})
 for _ in range(0, 6):
     new_cube = defaultdict(int)
     for loc in {tuple(sum(v) for v in zip(loc, d)) for loc in hypercube for d in directions_02 if hypercube[loc]}:

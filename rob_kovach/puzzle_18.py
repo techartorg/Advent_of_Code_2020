@@ -11,7 +11,7 @@ input_ = open(location.replace('.py', '_input.txt')).read()
 
 def calculate(string):
     """Parses the numbers from left to right, applying the
-    operators with the precendence."""
+    operators from left to right."""
     digits = []
     operators = []
     for token in string.split(' '):
@@ -54,11 +54,6 @@ print(sum(eval_expression(x) for x in input_.splitlines()))
 
 
 # Part 2 ----------------------------------------------------------------------
-def add_(formula):
-    elements = formula.split(' ')
-    return int(elements[0]) + int(elements[-1])
-
-
 def calculate2(formula):
     """Apply Addition Before Multiplication."""
     exp = formula
@@ -67,7 +62,7 @@ def calculate2(formula):
     while '+' in exp:
         result = re.search("(\d+[ ]\+[ ]\d+)", exp)
         substring = result.group(1)
-        value = add_(substring)
+        value = eval(substring)
         exp = exp.replace(f'{substring}', str(value), 1)
     
     # after resolving all the additions, we can multiply all

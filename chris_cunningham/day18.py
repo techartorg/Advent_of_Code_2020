@@ -3,10 +3,7 @@ from pyparsing import infixNotation, oneOf, opAssoc, pyparsing_common, ParseResu
 expression_strs = open("inputs/day18.txt", 'r').read().splitlines()
 
 parser_a = infixNotation(pyparsing_common.integer, [(oneOf('* +'), 2, opAssoc.LEFT)])
-expressions_a = [parser_a.parseString(line) for line in expression_strs]
-
 parser_b = infixNotation(pyparsing_common.integer, [(oneOf('+'), 2, opAssoc.LEFT), (oneOf("*"), 2, opAssoc.LEFT)])
-expressions_b = [parser_b.parseString(line) for line in expression_strs]
 
 
 def apply(expression):
@@ -25,5 +22,5 @@ def apply(expression):
     return result
 
 
-print(f"part a: {sum(apply(i) for i in expressions_a)}")
-print(f"part b: {sum(apply(i) for i in expressions_b)}")
+print(f"part a: {sum(apply(i) for i in (parser_a.parseString(e) for e in expression_strs))}")
+print(f"part b: {sum(apply(i) for i in (parser_b.parseString(e) for e in expression_strs))}")

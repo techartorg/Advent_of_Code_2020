@@ -3,7 +3,9 @@ from typing import Any
 
 rules, messages = open("day_19.input").read().split("\n\n")
 tree: dict[int, list[list[Any]]] = {
-    int(k): [list(map(int, x.split(" "))) if '"' not in x else [x[1]] for x in rest.split(" | ")] for line in rules.splitlines() for k, rest in (line.split(": "),)
+    int(k): [list(map(int, sub_rule.split(" "))) if '"' not in sub_rule else [sub_rule[1]] for sub_rule in rule.split(" | ")]
+    for line in rules.splitlines()
+    for k, rule in (line.split(": "),)
 }
 
 
@@ -58,7 +60,9 @@ def build_regex(node: int, depth: int) -> str:
 
 
 tree: dict[int, list[list[Any]]] = {
-    int(k): [list(map(int, x.split(" "))) if '"' not in x else [x[1]] for x in rest.split(" | ")] for line in rules.splitlines() for k, rest in (line.split(": "),)
+    int(k): [list(map(int, sub_rule.split(" "))) if '"' not in sub_rule else [sub_rule[1]] for sub_rule in rule.split(" | ")]
+    for line in rules.splitlines()
+    for k, rule in (line.split(": "),)
 }
 r = re.compile(build_regex(0, 0))
 print(sum(bool(r.fullmatch(m)) for m in messages.split()))

@@ -72,6 +72,7 @@ def _game( rounds ):
         else:
             answers.update( { cur_answer : rnd } )
             cur_answer = 0
+            
         rnd += 1
     
     return cur_answer

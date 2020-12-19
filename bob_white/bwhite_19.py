@@ -1,15 +1,15 @@
-from pprint import pprint
-from re import match
+from typing import Any
 
 rules, messages = open("day_19.input").read().split("\n\n")
-tree = {
-    int(k): [list(map(int, x.split(" "))) for x in rest.split(" | ")] if '"' not in rest else [[rest[1]]] for line in rules.splitlines() for k, rest in (line.split(": "),)
+tree: dict[int, list[list[Any]]] = {
+    int(k): [list(map(int, x.split(" "))) if '"' not in x else [x[1]] for x in rest.split(" | ")] for line in rules.splitlines() for k, rest in (line.split(": "),)
 }
 
 
 def match(message, stack):
-    # We know we can't match if we run out of stack, or our stack grows past the length of the message.
-    if len(stack) > len(message) or not stack:
+    # If there is no stack left, we're done.
+    # Also part 2, if the stack has grown larger than the message, we're done.
+    if not stack or len(stack) > len(message):
         return False
 
     elif stack[0] == message:
@@ -26,7 +26,7 @@ def match(message, stack):
 
 # stack is first in last out, so we need to reverse the rules order
 start = tree[0][0][::-1]
-print(sum(match(message, start) for message in messages.splitlines()))
+print(sum(match(message, start) for message in sorted(messages.splitlines())))
 tree[8] = [[42], [42, 8]]
 tree[11] = [[42, 31], [42, 11, 31]]
-print(sum(match(message, start) for message in messages.splitlines()))
+print(sum(match(message, start) for message in sorted(messages.splitlines())))

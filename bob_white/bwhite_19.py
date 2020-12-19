@@ -1,8 +1,9 @@
+import re
 from typing import Any
 
 rules, messages = open("day_19.input").read().split("\n\n")
 tree: dict[int, list[list[Any]]] = {
-    int(k): [list(map(int, x.split(" "))) if '"' not in x else [x[1]] for x in rest.split(" | ")] for line in rules.splitlines() for k, rest in (line.split(": "),)
+    int(k): [[int(v) if '"' not in v else v[1] for v in sub_rule.split()] for sub_rule in rule.split(" | ")] for line in rules.splitlines() for k, rule in (line.split(": "),)
 }
 
 
@@ -30,3 +31,39 @@ print(sum(match(message, start) for message in sorted(messages.splitlines())))
 tree[8] = [[42], [42, 8]]
 tree[11] = [[42, 31], [42, 11, 31]]
 print(sum(match(message, start) for message in sorted(messages.splitlines())))
+
+
+def build_regex(node: int, depth: int) -> str:
+    # Recursively check nodes in the tree, building up (ab|ba) style strings
+    # until we hit a maximum depth level, really only matters for part 2, part 1 will terminate naturally, I've padded max depth just in case other peoples puzzle inputs need more.
+    # I'm reusing the same tree structure as my stack based approach, which pre-parses the tree into a dict[list[list[str|int]]] tree.
+    return (
+        f'({"|".join("".join(sub_node if isinstance(sub_node, str) else build_regex(sub_node, depth + 1) for sub_node in branch) for branch in tree[node])})'
+        if depth <= 20  # For my input 14 was enough, 20 is slower but having the deeper tree might be needed for other inputs.
+        else ""
+    )
+    # # Longform it looks like:
+    # if depth > 20:
+    #     return ""
+    # regex = []
+    # for branch in tree[node]:
+    #     b = []
+    #     for sub_node in branch:
+    #         if isinstance(sub_node, str):
+    #             b.append(sub_node)
+    #         else:
+    #             b.append(build_regex(sub_node, depth + 1))
+    #     regex.append("".join(b))
+    # return f"({'|'.join(regex)})"
+
+
+tree: dict[int, list[list[Any]]] = {
+    int(k): [[int(v) if '"' not in v else v[1] for v in sub_rule.split()] for sub_rule in rule.split(" | ")] for line in rules.splitlines() for k, rule in (line.split(": "),)
+}
+r = re.compile(build_regex(0, 0))
+print(sum(bool(r.fullmatch(m)) for m in messages.split()))
+
+tree[8] = [[42], [42, 8]]
+tree[11] = [[42, 31], [42, 11, 31]]
+r = re.compile(build_regex(0, 0))
+print(sum(bool(r.fullmatch(m)) for m in messages.split()))

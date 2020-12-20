@@ -264,7 +264,13 @@ grid_map = remove_edges_and_combine_grid(grid)
 monster = set()
 monster_width = 20
 monster_height = 3
-for y, line in enumerate(open("monster.txt").read().split("\n")):
+for y, line in enumerate(
+    [
+        "                  # ",
+        "#    ##    ##    ###",
+        " #  #  #  #  #  #   ",
+    ]
+):
     for i, ch in enumerate(line):
         if ch == "#":
             monster.add((i, y))

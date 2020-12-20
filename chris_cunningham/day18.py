@@ -13,11 +13,10 @@ def apply(expression):
     for i in expression:
         if isinstance(i, ParseResults):
             result = eval(f"{result}{op}{apply(i)}")
+        elif isinstance(i, str):
+            op = i
         else:
-            if isinstance(i, str):
-                op = i
-            else:
-                result = eval(f"{result}{op}{i}")
+            result = eval(f"{result}{op}{i}")
 
     return result
 

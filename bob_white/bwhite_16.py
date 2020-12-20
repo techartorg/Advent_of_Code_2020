@@ -10,8 +10,8 @@ note_map: Dict[str, Set[int]] = defaultdict(set)
 for note in notes:
     key, val = note.split(": ")
     for spread in val.split(" or "):
-        m, x = map(int, spread.split("-"))
-        note_map[key].update(range(m, x + 1))
+        min_, max_ = map(int, spread.split("-"))
+        note_map[key].update(range(min_, max_ + 1))
 
 tickets = [literal_eval(line) for line in other_tickets]
 bad_tickets, errors = zip(*((idx, v) for idx, t in enumerate(tickets) for v in t if not any(v in vals for vals in note_map.values())))

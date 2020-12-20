@@ -5,9 +5,9 @@ nums = re.compile(r"\(\d+?\)")
 pzl = open("day_18.input").read().splitlines()
 part_01 = []
 for line in pzl:
-    while (val := vals.findall(line)) :
+    while val := vals.findall(line):
         line = vals.sub(str(eval(val[0])), line, 1)
-        while (num := nums.findall(line)) :
+        while num := nums.findall(line):
             line = nums.sub(str(eval(num[0])), line, 1)
     part_01.append(int(line))
 print(sum(part_01))

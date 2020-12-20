@@ -107,15 +107,17 @@ Tile 3079:
 ..#.###...
 '''
 
+import copy
 import re
 
-location = __file__
-input_ = open(location.replace('.py', '_input.txt')).read()
+#location = __file__
+#input_ = open(location.replace('.py', '_input.txt')).read()
 
 class Tile():
     def __init__(self, rawData):
         self.tileId = None
         self.imageData = []
+        self.imageData2 = []
         self.parse_raw_data(rawData)
         self.neighbors = []
 
@@ -141,8 +143,55 @@ class Tile():
     def get_right_edge(self):
         return [item[-1] for item in self.imageData]
     
+    def print_data(self):
+        """Debug prints the input data."""
+        lines = [''.join(x) for x in self.imageData]
+        data = '\n'.join(lines)
+        print(data)
+
+    def print_data2(self):
+        """Debug prints the stripped data for part 2."""
+        lines = [''.join(x) for x in self.imageData2]
+        data = '\n'.join(lines)
+        print(data)
+    
+    def strip_borders(self):
+        """Removes the border data used for matching tiles."""
+        self.imageData2 = copy.deepcopy(self.imageData)
+        # Remove the first and last rows first.
+        self.imageData2.pop(0)
+        self.imageData2.pop()
+        # For each row, remove the first last columns.
+        for row in self.imageData2:
+            row.pop(0)
+            row.pop()
+
+    def flip_vertical(self):
+        # Flips self.imageData2 vertically.
+        self.imageData2 = self.imageData2[::-1]
+
+    def flip_horizontal(self):
+         # Flips self.imageData2 horizontally.
+        self.imageData2 = [x[::-1] for x in self.imageData2]
+    
+    def rotate_180(self):
+        # Flip both vertically and horizontally to rotate 180.
+        self.flip_vertical()
+        self.flip_horizontal()
+    
+    def rotate_90_clockwise(self):
+        # Rotate self.imageData2 90 degrees clockwise.
+        self.imageData2 = list(zip(*self.imageData2[::-1]))
+    
+    def rotate_90_counter_clockwise(self):
+        # Rotate self.imageData2 90 degrees counter clockwise.
+        self.imageData2 = list(zip(*self.imageData2))[::-1]
+
     @property
     def borders(self):
+        """Returns the borders clockwise from the top.
+        Top, Right, Bottom, Left.
+        """
         return [self.get_top_edge(), 
                 self.get_right_edge(), 
                 self.get_bottom_edge(), 
@@ -202,3 +251,22 @@ def part1():
 
 
 print(part1())
+
+"""
+def part2():
+    tiles = []
+
+    for dataSet in input_.split('\n\n'):
+        tiles.append(Tile(dataSet))
+    
+    for t in tiles:
+        t.strip_borders()
+        #t.print_data2()
+    
+    tiles[0].print_data2()
+    print('\n')
+    tiles[0].rotate_90_counter_clockwise()
+    tiles[0].print_data2()
+
+part2()
+"""

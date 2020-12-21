@@ -4,9 +4,10 @@ Advent of Code 2020 - Day 2: Password Philosophy
 --- Part 1 ---
 For example, suppose you have the following list:
 
-1-3 a: abcde
-1-3 b: cdefg
-2-9 c: ccccccccc
+    1-3 a: abcde
+    1-3 b: cdefg
+    2-9 c: ccccccccc
+
 
 Each line gives the password policy and then the password. The password 
 policy indicates the lowest and highest number of times a given letter 
@@ -37,9 +38,10 @@ letter are irrelevant for the purposes of policy enforcement.
 
 Given the same example list from above:
 
-1-3 a: abcde is valid: position 1 contains a and position 3 does not.
-1-3 b: cdefg is invalid: neither position 1 nor position 3 contains b.
-2-9 c: ccccccccc is invalid: both position 2 and position 9 contain c.
+    1-3 a: abcde is valid: position 1 contains a and position 3 does not.
+    1-3 b: cdefg is invalid: neither position 1 nor position 3 contains b.
+    2-9 c: ccccccccc is invalid: both position 2 and position 9 contain c.
+
 
 How many passwords are valid according to the new interpretation of the policies?
 """

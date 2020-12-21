@@ -86,15 +86,15 @@ ALL_INGREDIENTS = []
 
 # Parse the input.
 for x in INPUT_.splitlines():
-    ingredients, ALLERGENS = x.split('(')
+    ingredients, allergens = x.split('(')
     ingredients = ingredients.strip()
     ingredients = ingredients.split(' ')
     ALL_INGREDIENTS.extend(ingredients)
-    ALLERGENS = ALLERGENS.replace(')', '')
-    ALLERGENS = ALLERGENS.replace('contains', '')
-    ALLERGENS = ALLERGENS.split(',')
-    ALLERGENS = [x.strip() for x in ALLERGENS]
-    for a in ALLERGENS:
+    allergens = allergens.replace(')', '')
+    allergens = allergens.replace('contains', '')
+    allergens = allergens.split(',')
+    allergens = [x.strip() for x in allergens]
+    for a in allergens:
         POSSIBILITIES[a].append(ingredients)
 
 # For each allergen, we know the possible list of ingredients per food.

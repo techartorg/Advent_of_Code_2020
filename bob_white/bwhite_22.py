@@ -17,9 +17,6 @@ while p1_cards and p2_cards:
 print(sum(i * card for i, card in enumerate(reversed(p1_cards if p1_cards else p2_cards), 1)))
 
 
-p1_cards = deque(map(int, player_01.splitlines()[1:]))
-p2_cards = deque(map(int, player_02.splitlines()[1:]))
-
 existing_rounds = defaultdict(set)
 
 
@@ -56,6 +53,10 @@ def recursive_combat(p1_cards, p2_cards, game=1):
 
     return winner
 
+
+# Recursive Combat!
+p1_cards = deque(map(int, player_01.splitlines()[1:]))
+p2_cards = deque(map(int, player_02.splitlines()[1:]))
 
 winner = recursive_combat(p1_cards, p2_cards)
 print(sum(i * card for i, card in enumerate(reversed(p1_cards if winner == 1 else p2_cards), 1)))

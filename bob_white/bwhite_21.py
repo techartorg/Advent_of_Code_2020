@@ -8,10 +8,10 @@ pzl_input = open("day_21.input").read().splitlines()
 
 food_map = {frozenset(ingredients.split()): set(allergens[:-1].split(", ")) for line in pzl_input for ingredients, allergens in (line.split("(contains "),)}
 
-all_ingredients = set.union(*map(set, food_map))
-all_allergens = set.union(*food_map.values())
+all_ingredients: set[str] = set.union(*map(set, food_map))
+all_allergens: set[str] = set.union(*food_map.values())
 
-possible_allergens = set()
+possible_allergens: set[str] = set()
 for allergen in all_allergens:
     possible_allergens.update(set.intersection(*(set(ingredients) for ingredients, allergens in food_map.items() if allergen in allergens)))
 
@@ -35,7 +35,7 @@ for ingredients, allergens in food_map.items():
 # for multiple passes.
 while any(len(triggers) > 1 for triggers in allergens_to_triggers.values()):
     # Find all the triggers with a length of 1, we're going to remove them from the rest of the allergens
-    found_triggers = set.union(*(triggers for triggers in allergens_to_triggers.values() if len(triggers) == 1))
+    found_triggers: set[str] = set.union(*(triggers for triggers in allergens_to_triggers.values() if len(triggers) == 1))
     for allergen, triggers in allergens_to_triggers.items():
         if len(triggers) > 1:
             triggers.difference_update(found_triggers)

@@ -24,7 +24,20 @@ for _ in range(100):
 print("".join(list(map(str, (circle[circle.index(1) :] + circle[: circle.index(1)])[1:]))))
 
 
-def part2(current):
+values = list(map(int, open("day_23.input").read()))
+# values = list(map(int, "389125467"))
+
+MAX = 1000000
+MIN = 1
+values.extend(range(max(values) + 1, MAX + 1))
+# Using a dictionary as a poor mans linked list, every node points to the next node in values
+# this turns out to be much smarter than the lists I used for part 1
+# Same with using deque, even though its a linked list under the hood, lookup times are still O(N)
+# Dict gets me O(1)
+ring = {values[-1]: values[0]} | {a: b for a, b in zip(values, values[1:])}
+
+current = values[0]
+for x in range(MAX * 10):
     next_val = ring[current]
     # Capture the next 3 nodes in the ring
     move = [-1, -1, -1]
@@ -40,22 +53,5 @@ def part2(current):
     insert = ring[dest]
     ring[dest] = move[0]
     ring[move[2]] = insert
-    return next_val
-
-
-values = list(map(int, open("day_23.input").read()))
-# values = list(map(int, "389125467"))
-
-MAX = 1000000
-MIN = 1
-values.extend(range(max(values) + 1, MAX + 1))
-# Using a dictionary as a poor mans linked list, every node points to the next node in values
-# this turns out to be much smarter than the lists I used for part 1
-# Same with using deque, even though its a linked list under the hood, lookup times are still O(N)
-# Dict gets me O(1)
-ring = {values[-1]: values[0]} | {a: b for a, b in zip(values, values[1:])}
-
-current = values[0]
-for x in range(MAX * 10):
-    current = part2(current)
+    current = next_val
 print(ring[1] * ring[ring[1]])

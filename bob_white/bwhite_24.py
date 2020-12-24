@@ -14,7 +14,7 @@ directions = {
 grid = defaultdict(int)
 for line in instructions:
     # This is what happens when someone asks if you can one-line your janky text parsing.
-    # Sadly the answer is yes! alos re.findall(line r'e|se|ne|w|sw|nw') should work.
+    # Sadly the answer is yes! also re.findall(line r'e|se|ne|w|sw|nw') should work.
     moves = (directions[m] for m in line.replace("w", "w ").replace("e", "e ").split())
     grid[sum(moves)] ^= 1
 

@@ -1,5 +1,11 @@
 from math import prod
 
+from utils import grouper
+
+sea_monster = """                  # 
+#    ##    ##    ###
+ #  #  #  #  #  #   """
+
 TileData = tuple[tuple[bool, ...], ...]
 
 
@@ -91,13 +97,13 @@ def can_match(lhs: Tile, rhs: Tile) -> bool:
 
 
 def find_connections(tiles: dict[int, Tile]):
-    for outer_i, outer_t in tiles.items():
-        for inner_i, inner_t in tiles.items():
-            if outer_i == inner_i:
+    for lhs in tiles.values():
+        for rhs in tiles.values():
+            if lhs == rhs:
                 continue
 
-            if can_match(outer_t, inner_t):
-                outer_t.connections.add(inner_t)
+            if can_match(lhs, rhs):
+                lhs.connections.add(rhs)
 
 
 def get_corner_edges(corner: Tile) -> list[list[Tile]]:
@@ -120,23 +126,29 @@ def get_corner_edges(corner: Tile) -> list[list[Tile]]:
     return edges
 
 
+def build_map(left_edge: Tile, top_edge: Tile) -> list[list[Tile]]:
+    rows = [top_edge]
+
+    for row_index, row in enumerate(left_edge[1:], 1):
+        rows.append([row])
+        prev_row = rows[row_index - 1]
+
+        current: Tile = row
+
+        for above, next_above in grouper(prev_row, 2):
+            current = next(i for i in current.connections if i != above and any(j == next_above for j in i.connections))
+            rows[row_index].append(current)
+
+    return rows
+
+
 def solve() -> tuple[int, int]:
     tiles = parse_inputs()
     find_connections(tiles)
     corners = [i for i in tiles.values() if len(i.connections) == 2]
 
     left_edge, top_edge = get_corner_edges(corners[0])
-
-    rows = [top_edge]
-
-    for row_index, current in enumerate(left_edge[1:], 1):
-        rows.append([current])
-
-        current: Tile = next(n for n in current.connections if len(n.connections) == 4)
-
-        while len(current.connections) == 4:
-            rows[row_index].append(current)
-            current: Tile = next(i for i in current.connections if any(n != current and n in rows[row_index - 1] for n in i.connections))
+    tile_map = build_map(left_edge, top_edge)
 
     return prod(i.index for i in corners), 0
 

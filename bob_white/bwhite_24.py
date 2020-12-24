@@ -1,67 +1,33 @@
-from pprint import pprint
 from collections import defaultdict
 
 instructions = open("day_24.input").read().splitlines()
-# instructions = """sesenwnenenewseeswwswswwnenewsewsw
-# neeenesenwnwwswnenewnwwsewnenwseswesw
-# seswneswswsenwwnwse
-# nwnwneseeswswnenewneswwnewseswneseene
-# swweswneswnenwsewnwneneseenw
-# eesenwseswswnenwswnwnwsewwnwsene
-# sewnenenenesenwsewnenwwwse
-# wenwwweseeeweswwwnwwe
-# wsweesenenewnwwnwsenewsenwwsesesenwne
-# neeswseenwwswnwswswnw
-# nenwswwsewswnenenewsenwsenwnesesenew
-# enewnwewneswsewnwswenweswnenwsenwsw
-# sweneswneswneneenwnewenewwneswswnese
-# swwesenesewenwneswnwwneseswwne
-# enesenwswwswneneswsenwnewswseenwsese
-# wnwnesenesenenwwnenwsewesewsesesew
-# nenewswnwewswnenesenwnesewesw
-# eneswnwswnwsenenwnwnwwseeswneewsenese
-# neswnwewnwnwseenwseesewsenwsweewe
-# wseweeenwnesenwwwswnew""".splitlines()
 
 directions = {
-    "nw": (0, 1, -1),
-    "ne": (1, 0, -1),
-    "se": (0, -1, 1),
-    "sw": (-1, 0, 1),
-    "w": (-1, 1, 0),
-    "e": (1, -1, 0),
+    "e": 1,
+    "w": -1,
+    "ne": 1 - 1j,
+    "nw": -1j,
+    "se": 1j,
+    "sw": -1 + 1j,
 }
-grid = defaultdict(bool)
+
+grid = defaultdict(int)
 for line in instructions:
-    moves = []
-    while line:
-        if line[0] in ("e", "w"):
-            mov, *line = line
-        else:
-            mov = "".join(line[:2])
-            line = line[2:]
-        moves.append(directions[mov])
-    coord = tuple(sum(x) for x in zip(*moves))
-    grid[tuple(sum(x) for x in zip(*moves))] = not grid[tuple(sum(x) for x in zip(*moves))]
+    # This is what happens when someone asks if you can one-line your janky text parsing.
+    # Sadly the answer is yes! alos re.findall(line r'e|se|ne|w|sw|nw') should work.
+    moves = (directions[m] for m in line.replace("sw", "sw ").replace("se", "se ").replace("ne", "ne ").replace("nw", "nw ").replace("w", "w ").replace("e", "e ").split())
+    grid[sum(moves)] ^= 1
+
 print(sum(grid.values()))
 
 for _ in range(100):
-    new_grid = defaultdict(bool)
-    # not sure why I needed to inflate by 2, but I wasn't getting valid answers without it.
-    # Probably some property of the weird coordinate system.
-    x_range, y_range, z_range = [(min(x) - 2, max(x) + 2) for x in zip(*grid)]
-    for x in range(*x_range):
-        for y in range(*y_range):
-            for z in range(*z_range):
-                if x + y + z:
-                    continue
-                loc = (x, y, z)
-                nearby = sum(grid[tuple(sum(x) for x in zip(loc, d))] for d in directions.values())
-                if not grid[loc]:
-                    new_grid[loc] = nearby == 2
-                if grid[loc]:
-                    new_grid[loc] = False if nearby == 0 or nearby > 2 else True
-    grid = new_grid.copy()
-    if _ % 10 == 9:
-        print(_ + 1, sum(grid.values()))
+    new_grid = grid.copy()
+    # Adding in the surrounding tiles
+    for tile in set(new_grid) | {tile + d for tile in new_grid for d in directions.values()}:
+        nearby = sum(grid[tile + d] for d in directions.values())
+        # Flipping the value based on the two rules.
+        if (grid[tile] and (nearby == 0 or nearby > 2)) or (not grid[tile] and nearby == 2):
+            new_grid[tile] ^= 1
+    # Filtering out dead tiles, as it speeds up the process.
+    grid = defaultdict(int) | {k: v for k, v in new_grid.items() if v}
 print(sum(grid.values()))

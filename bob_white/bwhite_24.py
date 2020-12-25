@@ -17,7 +17,6 @@ for line in instructions:
     # Sadly the answer is yes! also re.findall(line r'e|se|ne|w|sw|nw') should work.
     moves = (directions[m] for m in line.replace("w", "w ").replace("e", "e ").split())
     grid[sum(moves)] ^= 1
-
 print(sum(grid.values()))
 
 for _ in range(100):

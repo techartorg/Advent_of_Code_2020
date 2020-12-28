@@ -1,0 +1,5 @@
+RowID,BirthYear,IssueYear,ExpirationYear,Height,HairColor,EyeColor,PassportID,CountryID
+0,1937,2017,2020,183cm,#fffffd,gry,860033327,147
+1,1929,2013,2023,,#cfa07d,amb,028048884,350
+2,1931,2013,2024,179cm,#ae17e1,brn,760753108,
+3,,2011,2025,59in,#cfa07d,brn,166559648,

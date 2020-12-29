@@ -1,0 +1,5 @@
+RowID,R64,R32,R16,R8,R4,R2,R1,S4,S2,S1
+0,false,true,false,true,true,false,false,true,false,true
+1,true,false,false,false,true,true,false,true,true,true
+2,false,false,false,true,true,true,false,true,true,true
+3,true,true,false,false,true,true,false,true,false,false

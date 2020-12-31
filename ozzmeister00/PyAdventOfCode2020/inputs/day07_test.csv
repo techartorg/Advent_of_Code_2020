@@ -1,0 +1,8 @@
+RowID,Contents,Parents,Color
+lightred,"((""brightwhite"", 1),(""mutedyellow"", 2))",,"(B=242,G=21,R=207,A=255)"
+darkorange,"((""brightwhite"", 3),(""mutedyellow"", 4))",,"(B=156,G=181,R=163,A=255)"
+brightwhite,"((""shinygold"", 1))","(""lightred"",""darkorange"")","(B=69,G=178,R=233,A=255)"
+mutedyellow,"((""shinygold"", 2),(""fadedblue"", 9))","(""lightred"",""darkorange"")","(B=83,G=138,R=174,A=255)"
+shinygold,"((""darkolive"", 1),(""vibrantplum"", 2))","(""brightwhite"",""mutedyellow"")","(B=49,G=187,R=224,A=0)"
+darkolive,"((""fadedblue"", 3),(""dottedblack"", 4))","(""shinygold"")","(B=242,G=34,R=16,A=255)"
+vibrantplum,"((""fadedblue"", 5),(""dottedblack"", 6))","(""shinygold"")","(B=141,G=140,R=211,A=255)"

@@ -1,0 +1,10 @@
+RowID,Operator,Value
+0,"NoOperation","0"
+1,"Accumulate","1"
+2,"Jump","4"
+3,"Accumulate","3"
+4,"Jump","-3"
+5,"Accumulate","-99"
+6,"Accumulate","1"
+7,"Jump","-4"
+8,"Accumulate","6"
